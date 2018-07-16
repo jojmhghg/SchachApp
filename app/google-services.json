@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "1064197819482",
+    "firebase_url": "https://schach-69350.firebaseio.com",
+    "project_id": "schach-69350",
+    "storage_bucket": "schach-69350.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064197819482:android:9aa5c5c79db675b2",
+        "android_client_info": {
+          "package_name": "de.htw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064197819482-bi1qroqtr298cgh45uekgpp9q9oned0c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVVo9zrJeRlRmZdNRFQqVXFpqZ67yIQ4g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064197819482:android:fa4eb4a61c5e2c25",
+        "android_client_info": {
+          "package_name": "htw.de.schachapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064197819482-63urobcgspeghh2e37gvmrhjski9f3sj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "htw.de.schachapp",
+            "certificate_hash": "7c755368922fb5c8184af183c3a6b9cbdf4b7a44"
+          }
+        },
+        {
+          "client_id": "1064197819482-bi1qroqtr298cgh45uekgpp9q9oned0c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVVo9zrJeRlRmZdNRFQqVXFpqZ67yIQ4g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064197819482-bi1qroqtr298cgh45uekgpp9q9oned0c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
