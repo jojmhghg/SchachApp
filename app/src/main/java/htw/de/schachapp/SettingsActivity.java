@@ -3,7 +3,6 @@ package htw.de.schachapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +33,6 @@ public class SettingsActivity extends AppCompatActivity {
         mFunctions = FirebaseFunctions.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        Log.d("SchachApp", "test");
-
         final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -44,17 +41,15 @@ public class SettingsActivity extends AppCompatActivity {
 
                 EditText email = (EditText)findViewById(R.id.emailInput);
                 if (e != null) {
-                    Log.d("SchachApp", "snapshot failed");
-                    email.setText("");
+                    //TODO: Fehlerbehandlung
                     return;
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    Log.d("SchachApp", "Current data: " + snapshot.getData());
-                    email.setText("Current data: " + snapshot.getData().get("username"));
+                    //TODO: nächste Zeile ist nur ein Test
+                    email.setText("Username: " + snapshot.getData().get("name"));
                 } else {
-                    Log.d("SchachApp", "Current data: null");
-                    email.setText(mAuth.getUid());
+                    //TODO: Fehlerbehandlung
                 }
             }
         });
