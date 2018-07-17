@@ -85,14 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText username = (EditText)findViewById(R.id.usernameInput);
-                Switch highlighting = (Switch)findViewById(R.id.highlightingToggle);
-
-                Map<String, Object> data = new HashMap<>();
-                data.put("username", username.getText().toString());
-                data.put("highlighting", highlighting.isChecked());
-
-                mFunctions.getHttpsCallable("updateSettings").call(data);
+                SettingsActivity.this.updateSettings();
             }
         });
 
@@ -100,15 +93,7 @@ public class SettingsActivity extends AppCompatActivity {
         saveAndReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText username = (EditText)findViewById(R.id.usernameInput);
-                Switch highlighting = (Switch)findViewById(R.id.highlightingToggle);
-
-                Map<String, Object> data = new HashMap<>();
-                data.put("username", username.getText().toString());
-                data.put("highlighting", highlighting.isChecked());
-
-                mFunctions.getHttpsCallable("updateSettings").call(data);
-
+                SettingsActivity.this.updateSettings();
                 finish();
             }
         });
@@ -121,4 +106,20 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void updateSettings(){
+        EditText username = (EditText)findViewById(R.id.usernameInput);
+        Switch highlighting = (Switch)findViewById(R.id.highlightingToggle);
+
+        if(username.getText().toString().length() < 3){
+            //TODO: Fehlermeldung -> Username zu kurz
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", username.getText().toString());
+        data.put("highlighting", highlighting.isChecked());
+
+        mFunctions.getHttpsCallable("updateSettings").call(data);
+    }
+
 }

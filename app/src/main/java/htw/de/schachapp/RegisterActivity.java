@@ -38,13 +38,22 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (!password.getText().toString().equals(verifyPassword.getText().toString())) {
                     //TODO: Fehlermeldung Passwort nicht gleich
-                } else {
+                }
+                else if(email.getText().toString() == null){
+
+                }
+                else{
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         EditText username = (EditText) findViewById(R.id.usernameInput);
+
+                                        if(username.getText().toString().length() < 3){
+                                            //TODO: Fehlermeldung -> Username zu kurz
+                                        }
+
                                         Map<String, Object> data = new HashMap<>();
                                         data.put("text", username.getText().toString());
                                         data.put("push", true);
