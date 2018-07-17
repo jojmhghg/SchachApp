@@ -36,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    //TODO: zu Startseite navigieren
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
                                 } else {
                                     //TODO: Fehler anzeigen
                                 }
@@ -46,24 +46,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        Button logoutButton = (Button)findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                TextView resultLabel = (TextView)findViewById(R.id.resultLabel);
-                resultLabel.setText("ausgeloggt");
-            }
-        });
-        */
-
         Button registerButton = (Button)findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(startIntent);
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -94,7 +82,8 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null){
-            //TODO: Zu Startseite navigieren
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         }
     }
 }

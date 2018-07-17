@@ -15,6 +15,11 @@
     <string name="hint_username">Benutzername</string>
     <string name="hint_verify_password">Passwort bestätigen</string>
 
-
+    <!-- RegisterActivity -->
+    <string name="activity_new_game">Neue Partie</string>
+    <string name="activity_continue_game">Partie fortsetzen</string>
+    <string name="activity_load_game">Partie laden</string>
+    <string name="activity_settings">Einstellungen</string>
+    <string name="activity_logout">Logout</string>
 
 </resources>
