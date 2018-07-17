@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/newGameButton"
+        android:id="@+id/mainNewGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/loadGameButton"
+        android:id="@+id/mainLoadGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -32,10 +32,10 @@
         android:text="@string/activity_load_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/continueGameButton" />
+        app:layout_constraintTop_toBottomOf="@+id/mainContinueGameButton" />
 
     <Button
-        android:id="@+id/continueGameButton"
+        android:id="@+id/mainContinueGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -46,10 +46,10 @@
         android:text="@string/activity_continue_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newGameButton" />
+        app:layout_constraintTop_toBottomOf="@+id/mainNewGameButton" />
 
     <Button
-        android:id="@+id/settingsButton"
+        android:id="@+id/mainSettingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -60,10 +60,10 @@
         android:text="@string/activity_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loadGameButton" />
+        app:layout_constraintTop_toBottomOf="@+id/mainLoadGameButton" />
 
     <Button
-        android:id="@+id/logoutButton"
+        android:id="@+id/mainLogoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -74,5 +74,5 @@
         android:text="@string/activity_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/mainSettingsButton" />
 </android.support.constraint.ConstraintLayout>

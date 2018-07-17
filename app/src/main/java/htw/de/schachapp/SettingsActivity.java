@@ -24,6 +24,14 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseFunctions mFunctions;
     private FirebaseFirestore db;
 
+    // Elemente in View
+    private EditText mEmailView;
+    private EditText mUsernameView;
+    private Switch mHighlightingView;
+    private Button mSaveButton;
+    private Button mSaveAndReturnButton;
+    private Button mReturnButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +40,15 @@ public class SettingsActivity extends AppCompatActivity {
         mFunctions = FirebaseFunctions.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        mEmailView = (EditText)findViewById(R.id.settingsEmailInput);
+        mHighlightingView = (Switch)findViewById(R.id.settingsHighlightingToggle);
+        mUsernameView = (EditText)findViewById(R.id.settingsUsernameInput);
+        mSaveButton = (Button)findViewById(R.id.settingsSaveButton);
+        mSaveAndReturnButton = (Button)findViewById(R.id.settingsSaveAndReturnButton);
+        mReturnButton = (Button)findViewById(R.id.settingsReturnButton);
+
         // Email in Feld eintragen
-        EditText email = (EditText)findViewById(R.id.emailInput);
-        email.setText(mAuth.getCurrentUser().getEmail());
+        mEmailView.setText(mAuth.getCurrentUser().getEmail());
 
         // Username in Feld eintragen & Highlighing-Switch einstellen
         db.collection("user").document(mAuth.getUid())
@@ -43,14 +57,10 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-
-                            Switch highlighting = (Switch)findViewById(R.id.highlightingToggle);
-                            EditText username = (EditText)findViewById(R.id.usernameInput);
-
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                username.setText(document.getData().get("name").toString());
-                                highlighting.setChecked((Boolean) document.getData().get("help"));
+                                mUsernameView.setText(document.getData().get("name").toString());
+                                mHighlightingView.setChecked((Boolean) document.getData().get("help"));
                             } else {
                                 //TODO: Fehlerbehandlung wenn document nicht exisitert
                             }
@@ -81,16 +91,14 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });*/
 
-        Button saveButton = (Button)findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SettingsActivity.this.updateSettings();
             }
         });
 
-        Button saveAndReturnButton = (Button)findViewById(R.id.saveAndReturnButton);
-        saveAndReturnButton.setOnClickListener(new View.OnClickListener() {
+        mSaveAndReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SettingsActivity.this.updateSettings();
@@ -98,8 +106,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        Button returnButton = (Button)findViewById(R.id.returnButton);
-        returnButton.setOnClickListener(new View.OnClickListener() {
+        mReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -108,16 +115,16 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void updateSettings(){
-        EditText username = (EditText)findViewById(R.id.usernameInput);
-        Switch highlighting = (Switch)findViewById(R.id.highlightingToggle);
+        String username = mUsernameView.getText().toString();
+        Boolean highlighting = mHighlightingView.isChecked();
 
-        if(username.getText().toString().length() < 3){
+        if(username.length() < 3){
             //TODO: Fehlermeldung -> Username zu kurz
         }
 
         Map<String, Object> data = new HashMap<>();
-        data.put("username", username.getText().toString());
-        data.put("highlighting", highlighting.isChecked());
+        data.put("username", username);
+        data.put("highlighting", highlighting);
 
         mFunctions.getHttpsCallable("updateSettings").call(data);
     }

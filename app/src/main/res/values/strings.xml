@@ -28,5 +28,16 @@
     <string name="label_username">Benutzername:</string>
     <string name="label_email">E-Mail:</string>
     <string name="label_highlighting">Highlighting:</string>
+    <string name="title_activity_login2">Sign in</string>
+
+    <!-- Errors -->
+    <string name="error_invalid_email">Ungültige E-Mail</string>
+    <string name="error_invalid_password">Ungültiges Passwort</string>
+    <string name="error_incorrect_input">Passwort oder E-Mail falsch</string>
+    <string name="error_field_required">Dieses Feld muss ausgefüllt sein</string>
+    <string name="error_invalid_username">Mindestens 3 Zeichen.</string>
+    <string name="error_short_password">Mindestens 8 Zeichen</string>
+    <string name="error_different_password">Passwörter stimmen nicht überein</string>
+
 
 </resources>

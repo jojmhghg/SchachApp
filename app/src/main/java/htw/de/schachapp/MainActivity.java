@@ -12,14 +12,26 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    // Elemente in View
+    private Button mNewGameButton;
+    private Button mContinueGameButton;
+    private Button mLoadGameButton;
+    private Button mSettingsButton;
+    private Button mLogoutButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
 
-        Button settingsButton = (Button)findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
+        mNewGameButton = (Button)findViewById(R.id.mainNewGameButton);
+        mContinueGameButton = (Button)findViewById(R.id.mainContinueGameButton);
+        mLoadGameButton = (Button)findViewById(R.id.mainLoadGameButton);
+        mSettingsButton = (Button)findViewById(R.id.mainSettingsButton);
+        mLogoutButton = (Button)findViewById(R.id.mainLogoutButton);
+
+        mNewGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
@@ -27,8 +39,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button logoutButton = (Button)findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        mContinueGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mLoadGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        mSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();

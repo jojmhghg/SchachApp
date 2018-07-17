@@ -7,7 +7,7 @@
     tools:context=".SettingsActivity">
 
     <Switch
-        android:id="@+id/highlightingToggle"
+        android:id="@+id/settingsHighlightingToggle"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:layout_marginEnd="8dp"
@@ -35,14 +35,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/emailLabel"
+            android:id="@+id/settingsEmailLabel"
             android:layout_width="93dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/label_email" />
 
         <EditText
-            android:id="@+id/emailInput"
+            android:id="@+id/settingsEmailInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -67,14 +67,14 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
-            android:id="@+id/usernameLabel"
+            android:id="@+id/settingsUsernameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/label_username" />
 
         <EditText
-            android:id="@+id/usernameInput"
+            android:id="@+id/settingsUsernameInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -83,7 +83,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/saveButton"
+        android:id="@+id/settingsSaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -94,10 +94,10 @@
         android:text="@string/activity_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/highlightingToggle" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsHighlightingToggle" />
 
     <Button
-        android:id="@+id/saveAndReturnButton"
+        android:id="@+id/settingsSaveAndReturnButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -108,10 +108,10 @@
         android:text="@string/activity_save_and_return"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsSaveButton" />
 
     <Button
-        android:id="@+id/returnButton"
+        android:id="@+id/settingsReturnButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -122,6 +122,6 @@
         android:text="@string/activity_return"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveAndReturnButton" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsSaveAndReturnButton" />
 
 </android.support.constraint.ConstraintLayout>
