@@ -11,37 +11,52 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.functions.FirebaseFunctions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseFunctions mFunctions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
+        mFunctions = FirebaseFunctions.getInstance();
 
         Button registerButton = (Button)findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText email = (EditText)findViewById(R.id.usernameInput);
-                EditText password = (EditText)findViewById(R.id.passwordText);
+                EditText email = (EditText) findViewById(R.id.emailInput);
+                EditText password = (EditText) findViewById(R.id.passwordInput);
+                EditText verifyPassword = (EditText) findViewById(R.id.verifyPasswordInput);
 
-                mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    //TODO: Zu Login navigieren und dort Bestätigung anzeigen
-                                } else {
-                                    //TODO: Fehler anzeigen
+                if (!password.equals(verifyPassword)) {
+                    //TODO: Fehlermeldung Passwort nicht gleich
+                } else {
+                    mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        EditText username = (EditText) findViewById(R.id.usernameInput);
+                                        Map<String, Object> data = new HashMap<>();
+                                        data.put("text", username);
+                                        data.put("push", true);
+                                        mFunctions.getHttpsCallable("changeUsername").call(data);
+
+                                        //TODO: Zu Login navigieren und dort Bestätigung anzeigen
+                                    } else {
+                                        //TODO: Fehler anzeigen
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }
             }
         });
 
