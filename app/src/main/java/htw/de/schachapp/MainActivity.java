@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         mNewGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), NewGameActivity.class);
                 startActivity(intent);
             }
         });
@@ -42,16 +42,18 @@ public class MainActivity extends AppCompatActivity {
         mContinueGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
+                //TODO
+                //Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                //startActivity(intent);
             }
         });
 
         mLoadGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
+                //TODO
+                //Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                //startActivity(intent);
             }
         });
         mSettingsButton.setOnClickListener(new View.OnClickListener() {
