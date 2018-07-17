@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
 
-
         mNewGameButton = (Button)findViewById(R.id.mainNewGameButton);
         mContinueGameButton = (Button)findViewById(R.id.mainContinueGameButton);
         mLoadGameButton = (Button)findViewById(R.id.mainLoadGameButton);
