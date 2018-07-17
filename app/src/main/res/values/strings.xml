@@ -12,14 +12,21 @@
     <string name="activity_reset_password">Passwort zurücksetzen</string>
 
     <!-- RegisterActivity -->
-    <string name="hint_username">Benutzername</string>
     <string name="hint_verify_password">Passwort bestätigen</string>
+    <string name="hint_username">Benutzername</string>
 
-    <!-- RegisterActivity -->
+    <!-- MainAciticity -->
     <string name="activity_new_game">Neue Partie</string>
     <string name="activity_continue_game">Partie fortsetzen</string>
     <string name="activity_load_game">Partie laden</string>
     <string name="activity_settings">Einstellungen</string>
     <string name="activity_logout">Logout</string>
+
+    <!-- SettingsAciticity -->
+    <string name="activity_save">Speichern</string>
+    <string name="activity_save_and_return">Speichern und zurück</string>
+    <string name="label_username">Benutzername:</string>
+    <string name="label_email">E-Mail:</string>
+    <string name="label_highlighting">Highlighting:</string>
 
 </resources>

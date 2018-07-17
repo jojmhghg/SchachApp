@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText email = (EditText)findViewById(R.id.emailInput);
+                EditText email = (EditText)findViewById(R.id.usernameInput);
                 EditText password = (EditText)findViewById(R.id.passwordText);
 
                 mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText email = (EditText)findViewById(R.id.emailInput);
+                EditText email = (EditText)findViewById(R.id.usernameInput);
                 mAuth.sendPasswordResetEmail(email.getText().toString())
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
                             @Override

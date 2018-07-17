@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText email = (EditText)findViewById(R.id.emailInput);
+                EditText email = (EditText)findViewById(R.id.usernameInput);
                 EditText password = (EditText)findViewById(R.id.passwordText);
 
                 mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
