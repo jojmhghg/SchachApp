@@ -1,18 +1,20 @@
 package htw.de.schachapp;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.functions.FirebaseFunctions;
 
 import java.util.HashMap;
@@ -25,9 +27,9 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     // Elemente in View
-    private EditText mEmailView;
-    private EditText mUsernameView;
-    private Switch mHighlightingView;
+    private EditText mEmail;
+    private EditText mUsername;
+    private Switch mHighlighting;
     private Button mSaveButton;
     private Button mSaveAndReturnButton;
     private Button mReturnButton;
@@ -40,56 +42,36 @@ public class SettingsActivity extends AppCompatActivity {
         mFunctions = FirebaseFunctions.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        mEmailView = (EditText)findViewById(R.id.settingsEmailInput);
-        mHighlightingView = (Switch)findViewById(R.id.settingsHighlightingToggle);
-        mUsernameView = (EditText)findViewById(R.id.settingsUsernameInput);
+        mEmail = (EditText)findViewById(R.id.settingsEmailInput);
+        mHighlighting = (Switch)findViewById(R.id.settingsHighlightingToggle);
+        mUsername = (EditText)findViewById(R.id.settingsUsernameInput);
         mSaveButton = (Button)findViewById(R.id.settingsSaveButton);
         mSaveAndReturnButton = (Button)findViewById(R.id.settingsSaveAndReturnButton);
         mReturnButton = (Button)findViewById(R.id.settingsReturnButton);
 
         // Email in Feld eintragen
-        mEmailView.setText(mAuth.getCurrentUser().getEmail());
+        mEmail.setText(mAuth.getCurrentUser().getEmail());
 
         // Username in Feld eintragen & Highlighing-Switch einstellen
-        db.collection("user").document(mAuth.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                mUsernameView.setText(document.getData().get("name").toString());
-                                mHighlightingView.setChecked((Boolean) document.getData().get("help"));
-                            } else {
-                                //TODO: Fehlerbehandlung wenn document nicht exisitert
-                            }
-                        } else {
-                            //TODO: Fehlerbehandlung wenn lesen nicht geht
-                        }
-                    }
-                });
-
-        /*final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
+        final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
 
-                EditText email = (EditText)findViewById(R.id.emailInput);
                 if (e != null) {
                     //TODO: Fehlerbehandlung
                     return;
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    //TODO: nächste Zeile ist nur ein Test
-                    email.setText("Username: " + snapshot.getData().get("name"));
+                    mUsername.setText(snapshot.getData().get("name").toString());
+                    mHighlighting.setChecked((Boolean) snapshot.getData().get("help"));
                 } else {
                     //TODO: Fehlerbehandlung
                 }
             }
-        });*/
+        });
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,18 +97,37 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void updateSettings(){
-        String username = mUsernameView.getText().toString();
-        Boolean highlighting = mHighlightingView.isChecked();
+        String username = mUsername.getText().toString();
+        Boolean highlighting = mHighlighting.isChecked();
 
-        if(username.length() < 3){
-            //TODO: Fehlermeldung -> Username zu kurz
+        boolean cancel = false;
+        View focusView = null;
+
+        // Check for a valid username.
+        if (TextUtils.isEmpty(username)) {
+            mUsername.setError(getString(R.string.error_field_required));
+            focusView = mUsername;
+            cancel = true;
+        }
+        else if(!isUsernameValid(username)){
+            mUsername.setError(getString(R.string.error_invalid_username));
+            focusView = mUsername;
+            cancel = true;
         }
 
-        Map<String, Object> data = new HashMap<>();
-        data.put("username", username);
-        data.put("highlighting", highlighting);
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+            Map<String, Object> data = new HashMap<>();
+            data.put("username", username);
+            data.put("highlighting", highlighting);
 
-        mFunctions.getHttpsCallable("updateSettings").call(data);
+            mFunctions.getHttpsCallable("updateSettings").call(data);
+        }
+    }
+
+    private boolean isUsernameValid(String password) {
+        return password.length() >= 3;
     }
 
 }
