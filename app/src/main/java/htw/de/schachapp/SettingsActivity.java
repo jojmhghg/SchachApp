@@ -1,19 +1,18 @@
 package htw.de.schachapp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.functions.FirebaseFunctions;
 
 import java.util.HashMap;
@@ -33,7 +32,35 @@ public class SettingsActivity extends AppCompatActivity {
         mFunctions = FirebaseFunctions.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
+        // Email in Feld eintragen
+        EditText email = (EditText)findViewById(R.id.emailInput);
+        email.setText(mAuth.getCurrentUser().getEmail());
+
+        // Username in Feld eintragen & Highlighing-Switch einstellen
+        db.collection("user").document(mAuth.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            Switch highlighting = (Switch)findViewById(R.id.highlightingToggle);
+                            EditText username = (EditText)findViewById(R.id.usernameInput);
+
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                username.setText(document.getData().get("name").toString());
+                                highlighting.setChecked((Boolean) document.getData().get("help"));
+                            } else {
+                                //TODO: Fehlerbehandlung wenn document nicht exisitert
+                            }
+                        } else {
+                            //TODO: Fehlerbehandlung wenn lesen nicht geht
+                        }
+                    }
+                });
+
+        /*final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
@@ -52,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
                     //TODO: Fehlerbehandlung
                 }
             }
-        });
+        });*/
 
         Button saveButton = (Button)findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
