@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     //TODO: successful Nachricht anzeigen
                                 } else {
-                                    //TODO: Fehlernachricht anezeigen
+                                    //TODO: Fehlernachricht anzeigen
                                 }
                             }
                         });
