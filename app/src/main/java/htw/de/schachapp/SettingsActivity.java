@@ -68,7 +68,8 @@ public class SettingsActivity extends AppCompatActivity {
                     mUsername.setText(snapshot.getData().get("name").toString());
                     mHighlighting.setChecked((Boolean) snapshot.getData().get("help"));
                 } else {
-                    //TODO: Fehlerbehandlung
+                    mUsername.setText("");
+                    mHighlighting.setChecked(true);
                 }
             }
         });
