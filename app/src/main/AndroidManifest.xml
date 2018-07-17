@@ -24,6 +24,10 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".NewGameActivity" />
+        <activity android:name=".NewOnlineGameActivity" />
+        <activity android:name=".NewKiGameActivity" />
+        <activity android:name=".NewOfflineGameActivity"></activity>
     </application>
 
 </manifest>

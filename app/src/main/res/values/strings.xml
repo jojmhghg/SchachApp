@@ -30,6 +30,11 @@
     <string name="label_highlighting">Highlighting:</string>
     <string name="title_activity_login2">Sign in</string>
 
+    <!-- NewGameActivity -->
+    <string name="activity_new_online_game">Neue Online-Partie</string>
+    <string name="activity_new_ki_game">Partie gegen KI</string>
+    <string name="activity_new_offline_game">Neue Offline-Partie</string>
+
     <!-- Errors -->
     <string name="error_invalid_email">Ungültige E-Mail</string>
     <string name="error_invalid_password">Ungültiges Passwort</string>
