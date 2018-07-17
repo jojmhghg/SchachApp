@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
                 EditText password = (EditText) findViewById(R.id.passwordInput);
                 EditText verifyPassword = (EditText) findViewById(R.id.verifyPasswordInput);
 
-                if (!password.equals(verifyPassword)) {
+                if (!password.getText().toString().equals(verifyPassword.getText().toString())) {
                     //TODO: Fehlermeldung Passwort nicht gleich
                 } else {
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
@@ -46,11 +46,12 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         EditText username = (EditText) findViewById(R.id.usernameInput);
                                         Map<String, Object> data = new HashMap<>();
-                                        data.put("text", username);
+                                        data.put("text", username.getText().toString());
                                         data.put("push", true);
-                                        mFunctions.getHttpsCallable("changeUsername").call(data);
+                                        mFunctions.getHttpsCallable("createUser").call(data);
 
-                                        //TODO: Zu Login navigieren und dort Bestätigung anzeigen
+                                        //TODO: Bestätigung anzeigen
+                                        finish();
                                     } else {
                                         //TODO: Fehler anzeigen
                                     }
