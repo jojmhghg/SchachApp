@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">SchachApp</string>
+
+    <!-- Mehrfaches auftauchen -->
+    <string name="hint_email">E-Mail</string>
+    <string name="hint_password">Passwort</string>
+    <string name="activity_return">Zurück</string>
+    <string name="activity_register">Registrieren</string>
+
+    <!-- LoginActivity -->
+    <string name="activity_login">Login</string>
+    <string name="activity_reset_password">Passwort zurücksetzen</string>
+
+    <!-- RegisterActivity -->
+    <string name="hint_username">Benutzername</string>
+    <string name="hint_verify_password">Passwort bestätigen</string>
+
+
+
 </resources>
