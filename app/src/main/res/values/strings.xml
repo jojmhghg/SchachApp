@@ -6,6 +6,15 @@
     <string name="hint_password">Passwort</string>
     <string name="activity_return">Zurück</string>
     <string name="activity_register">Registrieren</string>
+    <string name="time_5_min">5 Minuten</string>
+    <string name="time_15_min">15 Minuten</string>
+    <string name="time_10_min">10 Minuten</string>
+    <string name="time_30_min">30 Minuten</string>
+    <string name="time_60_min">60 Minuten</string>
+    <string name="time_infinite_min">Unbegrenzt</string>
+    <string name="label_time">Zeit pro Spieler:</string>
+    <string name="color_white">Weiß</string>
+    <string name="color_black">Schwarz</string>
 
     <!-- LoginActivity -->
     <string name="activity_login">Login</string>
@@ -31,9 +40,17 @@
     <string name="title_activity_login2">Sign in</string>
 
     <!-- NewGameActivity -->
-    <string name="activity_new_online_game">Neue Online-Partie</string>
-    <string name="activity_new_ki_game">Partie gegen KI</string>
-    <string name="activity_new_offline_game">Neue Offline-Partie</string>
+    <string name="activity_new_online_game">Online-Partie</string>
+    <string name="activity_new_ki_game">Partie gegen Computer</string>
+    <string name="activity_new_offline_game">Offline-Partie</string>
+
+    <!-- NewOnlineGameActivity -->
+    <string name="label_favorite_color">Bevorzugte Farbe:</string>
+    <string name="activity_enter_queue">Partie suchen</string>
+
+    <!-- NewOnlineGameActivity -->
+    <string name="label_color_player1">Farbe Spieler1:</string>
+    <string name="activity_enter_game">Partie starten</string>
 
     <!-- Errors -->
     <string name="error_invalid_email">Ungültige E-Mail</string>
