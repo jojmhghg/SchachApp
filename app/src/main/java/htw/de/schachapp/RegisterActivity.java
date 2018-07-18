@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -129,12 +130,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             //TODO: showProgress(true);
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -148,10 +145,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 data.put("push", true);
                                 mFunctions.getHttpsCallable("createUser").call(data);
 
-                                //TODO: Bestätigung anzeigen
+                                Toast.makeText(RegisterActivity.this, R.string.success_register,
+                                        Toast.LENGTH_LONG).show();
                                 finish();
                             } else {
-                                //TODO: Fehler anzeigen
+                                Toast.makeText(RegisterActivity.this, R.string.error_register,
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     });

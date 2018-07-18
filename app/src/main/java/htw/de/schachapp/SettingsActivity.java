@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -60,7 +61,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 @Nullable FirebaseFirestoreException e) {
 
                 if (e != null) {
-                    //TODO: Fehlerbehandlung
+                    Toast.makeText(SettingsActivity.this, R.string.error_get_data,
+                            Toast.LENGTH_LONG).show();
                     return;
                 }
 

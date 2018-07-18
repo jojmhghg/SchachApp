@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,17 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         mResetPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.sendPasswordResetEmail(mEmail.getText().toString())
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    //TODO: successful Nachricht anzeigen
-                                } else {
-                                    //TODO: Fehlernachricht anzeigen
-                                }
-                            }
-                        });
+                attemptPasswordReset();
             }
         });
     }
@@ -119,12 +110,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             //TODO: showProgress(true);
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -137,6 +124,46 @@ public class LoginActivity extends AppCompatActivity {
                                 mPassword.setError(getString(R.string.error_incorrect_input));
                                 View focusView = mPassword;
                                 focusView.requestFocus();
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void attemptPasswordReset() {
+        // Reset errors.
+        mEmail.setError(null);
+
+        // Store values at the time of the login attempt.
+        String email = mEmail.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            mEmail.setError(getString(R.string.error_field_required));
+            focusView = mEmail;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mEmail.setError(getString(R.string.error_invalid_email));
+            focusView = mEmail;
+            cancel = true;
+        }
+
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+            mAuth.sendPasswordResetEmail(mEmail.getText().toString())
+                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, R.string.success_password_reset,
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this, R.string.error_password_reset,
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     });
