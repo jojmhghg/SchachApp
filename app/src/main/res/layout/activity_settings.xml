@@ -9,14 +9,17 @@
 
     <Switch
         android:id="@+id/settingsHighlightingToggle"
-        android:layout_width="wrap_content"
-        android:layout_height="29dp"
+        android:layout_width="136dp"
+        android:layout_height="35dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:background="@color/colorAccent"
         android:text="@string/label_highlighting"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/settingsSaveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -40,7 +43,9 @@
             android:layout_width="93dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/label_email" />
+            android:background="@color/colorAccent"
+            android:text="@string/label_email"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/settingsEmailInput"
@@ -72,7 +77,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/label_username" />
+            android:background="@color/colorAccent"
+            android:text="@string/label_username"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/settingsUsernameInput"
@@ -86,13 +93,13 @@
     <Button
         android:id="@+id/settingsSaveButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/activity_save"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -103,12 +110,12 @@
     <Button
         android:id="@+id/settingsSaveAndReturnButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="46dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/activity_save_and_return"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,12 +125,12 @@
     <Button
         android:id="@+id/settingsReturnButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/activity_return"
         app:layout_constraintEnd_toEndOf="parent"

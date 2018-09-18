@@ -48,9 +48,10 @@
     <string name="label_favorite_color">Bevorzugte Farbe:</string>
     <string name="activity_enter_queue">Partie suchen</string>
 
-    <!-- NewOnlineGameActivity -->
+    <!-- NewOfflineGameActivity -->
     <string name="label_color_player1">Farbe Spieler1:</string>
     <string name="activity_enter_game">Partie starten</string>
+    <string name="hint_name_player2">Name Spieler 2</string>
 
     <!-- Success -->
     <string name="success_password_reset">Passwort erfolgreich zurückgesetzt! Überprüfe deine E-Mails.</string>
@@ -67,6 +68,7 @@
     <string name="error_password_reset">Zurücksetzen fehlgeschlagen! Überprüfe deine Eingabe.</string>
     <string name="error_register">Registrierung fehlgeschlagen! E-Mail wird bereits verwendet.</string>
     <string name="error_get_data">Synchronisierung mit Server fehlgeschlagen! Daten konnten nicht geladen werden.</string>
+    <string name="title_activity_spielbrett">Spielbrett</string>
 
 
 </resources>

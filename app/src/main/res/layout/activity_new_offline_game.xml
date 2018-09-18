@@ -14,10 +14,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
+        android:background="@color/colorAccent"
+        android:ems="8"
         android:enabled="false"
         android:inputType="textPersonName"
+        android:padding="5dp"
         android:text="@string/label_time"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorLink="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,10 +32,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
+        android:background="@color/colorAccent"
+        android:ems="8"
         android:enabled="false"
         android:inputType="textPersonName"
+        android:padding="5dp"
         android:text="@string/label_color_player1"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorLink="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
 
@@ -42,9 +50,13 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
+        android:background="@color/colorAccent"
+        android:ems="8"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:hint="@string/hint_name_player2"
+        android:padding="5dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorLink="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText6" />
 
@@ -57,51 +69,60 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toEndOf="@+id/editText5"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorAccent">
 
         <RadioButton
             android:id="@+id/offlineGameInfiniteRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/time_infinite_min" />
+            android:text="@string/time_infinite_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/offlineGame5minRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/time_5_min" />
+            android:text="@string/time_5_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/offlineGame10minRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/time_10_min" />
+            android:text="@string/time_10_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/offlineGame15minRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/time_15_min" />
+            android:text="@string/time_15_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/offlineGame30minRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/time_30_min" />
+            android:text="@string/time_30_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/offlineGame60minRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/time_60_min" />
+            android:text="@string/time_60_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
     </RadioGroup>
 
     <ToggleButton
@@ -118,7 +139,8 @@
         android:textOn="@string/color_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText6"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2"
+        android:background="@color/colorAccent" />
 
     <Button
         android:id="@+id/offlineGameStartButton"
