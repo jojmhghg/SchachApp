@@ -18,7 +18,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorAccent">
 
         <RadioButton
             android:id="@+id/onlineGame5minRadioButton"
@@ -26,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="@string/time_5_min" />
+            android:text="@string/time_5_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/onlineGame10minRadioButton"
@@ -34,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
-            android:text="@string/time_10_min" />
+            android:text="@string/time_10_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/onlineGame15minRadioButton"
@@ -42,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
-            android:text="@string/time_15_min" />
+            android:text="@string/time_15_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/onlineGame30minRadioButton"
@@ -50,7 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
-            android:text="@string/time_30_min" />
+            android:text="@string/time_30_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
 
         <RadioButton
             android:id="@+id/onlineGame60minRadioButton"
@@ -58,7 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
-            android:text="@string/time_60_min" />
+            android:text="@string/time_60_min"
+            android:buttonTint="@color/colorPrimaryDark"/>
     </RadioGroup>
 
     <EditText
@@ -68,10 +74,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
+        android:background="@color/colorAccent"
+        android:ems="8"
         android:enabled="false"
         android:inputType="textPersonName"
+        android:padding="5dp"
         android:text="@string/label_time"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorLink="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,6 +97,7 @@
         android:text="@string/color_white"
         android:textOff="@string/color_black"
         android:textOn="@string/color_white"
+        android:background="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText2"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
@@ -98,10 +109,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
+        android:background="@color/colorAccent"
+        android:ems="8"
         android:enabled="false"
         android:inputType="textPersonName"
+        android:padding="5dp"
         android:text="@string/label_favorite_color"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorLink="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
@@ -133,5 +148,5 @@
         android:text="@string/activity_enter_queue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/onlinePartieColorToggleButton" />
 </android.support.constraint.ConstraintLayout>

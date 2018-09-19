@@ -17,8 +17,10 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:background="@color/colorAccent"
+        android:padding="5dp"
         android:text="@string/label_highlighting"
         android:textColor="@color/colorPrimaryDark"
+        android:textColorLink="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/settingsSaveButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +38,8 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorAccent">
 
         <TextView
             android:id="@+id/settingsEmailLabel"
@@ -45,7 +48,8 @@
             android:layout_weight="1"
             android:background="@color/colorAccent"
             android:text="@string/label_email"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="5dp"/>
 
         <EditText
             android:id="@+id/settingsEmailInput"
@@ -54,7 +58,10 @@
             android:layout_weight="1"
             android:ems="10"
             android:enabled="false"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorLink="@color/colorPrimaryDark" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,7 +77,8 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/settingsHighlightingToggle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorAccent">
 
         <TextView
             android:id="@+id/settingsUsernameLabel"
@@ -79,7 +87,8 @@
             android:layout_weight="1"
             android:background="@color/colorAccent"
             android:text="@string/label_username"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="5dp"/>
 
         <EditText
             android:id="@+id/settingsUsernameInput"
@@ -87,7 +96,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorLink="@color/colorPrimaryDark"
+            android:padding="5dp" />
     </LinearLayout>
 
     <Button

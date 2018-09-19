@@ -1,5 +1,6 @@
 package htw.de.schachapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -69,9 +70,11 @@ public class NewOfflineGameActivity extends AppCompatActivity {
 
                     mFunctions.getHttpsCallable("newOfflineGame").call(data);
 
-                    //TODO: zu neuer Activity gehen & Toast entfernen
-                    Toast.makeText(NewOfflineGameActivity.this, "Offline Game erstellt",
+                    Toast.makeText(NewOfflineGameActivity.this, "Offline Game erstellt!",
                             Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
+                    startActivity(intent);
                 }
 
             }
