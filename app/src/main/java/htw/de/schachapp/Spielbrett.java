@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
@@ -49,6 +50,9 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
     //Variable GameDaten
     private int turn;
 
+    private ListenerRegistration lr1;
+    private ListenerRegistration lr2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +66,8 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
         username2 = (TextView) findViewById(R.id.sbName2);
 
         //Listener auf die User-Daten (Username, Highlighting & GameId)
-        final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        DocumentReference docRef = db.collection("user").document(mAuth.getUid());
+        lr1 = docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
@@ -85,8 +89,10 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
                         //TODO: was tun?
                     }
 
-                    if(gameId == null){
+                    if(gameId == null && newGameId!= null && !newGameId.equals("null")){
                         gameId = newGameId;
+
+
 
                         // Einmaliges lesen von Fix-Daten der Partie ()
                         db.collection("games")
@@ -100,7 +106,7 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
 
                                             //Eigene Farbe bestimmen
                                             ownColorIsWhite = false;
-                                            if(document.get("id1").toString().equals(mAuth.getUid())){
+                                            if(document.get("id1") != null && document.get("id1").toString().equals(mAuth.getUid())){
                                                 ownColorIsWhite = true;
                                             }
 
@@ -130,6 +136,8 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
                                                     }
                                                 });
                                             }
+
+                                            init();
                                         } else {
                                             Toast.makeText(Spielbrett.this, R.string.error_get_data,
                                                     Toast.LENGTH_LONG).show();
@@ -146,6 +154,11 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
             }
         });
 
+
+
+    }
+
+    private void init(){
         //Menüleiste füllen
         menue = (Spinner) findViewById(R.id.sbMenue);
         ArrayAdapter<CharSequence> adapter;
@@ -163,10 +176,9 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
         }
         menue.setOnItemSelectedListener(this);
 
-
         //Listener auf die Game-Daten (res, turn)
-        final DocumentReference docRef3 = db.collection("user").document(mAuth.getUid());
-        docRef3.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        DocumentReference docRef2 = db.collection("user").document(mAuth.getUid());
+        lr2 = docRef2.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
@@ -178,10 +190,24 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    String res = snapshot.getData().get("res").toString();
-                    int newTurn = Integer.parseInt(snapshot.getData().get("help").toString());
+                    String res = "null";
+                    if(snapshot.getData().get("res") != null){
+                        res = snapshot.getData().get("res").toString();
+                    }
 
-                    if(!res.equals("")){
+                    Toast.makeText(Spielbrett.this, snapshot.getData().get("turn").toString(),
+                            Toast.LENGTH_LONG).show();
+
+                    int newTurn;
+                    if(snapshot.getData().get("turn") == null){
+                        newTurn = 1;
+
+                    }
+                    else {
+                        newTurn = (Integer) snapshot.getData().get("turn");
+                    }
+
+                    if(!res.equals("null")){
                         Toast.makeText(Spielbrett.this, res,
                                 Toast.LENGTH_LONG).show();
                         //TODO: Spiel beendet, Ergebnis anzeigen
@@ -199,7 +225,6 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
                 }
             }
         });
-
     }
 
     @Override
@@ -334,6 +359,16 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
+    }
+
+    public void onStop () {
+        if(lr1 != null){
+            lr1.remove();
+        }
+        if(lr2 != null){
+            lr2.remove();
+        }
+        super.onStop();
     }
 
 }

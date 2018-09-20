@@ -1,6 +1,7 @@
 package htw.de.schachapp;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button mLoginButton;
     private Button mRegisterButton;
     private Button mResetPasswordButton;
+
+    private AnimationDrawable animationOfLoading;
+    private ImageView loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,11 +117,20 @@ public class LoginActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            //TODO: showProgress(true);
+            //Loading Animation Start
+            loading = (ImageView) findViewById (R.id.loading);
+            loading.setVisibility(View.VISIBLE);
+            animationOfLoading = (AnimationDrawable) loading.getDrawable();
+            animationOfLoading.start();
+
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            //Loading Animation Stop
+                            loading.setVisibility(View.INVISIBLE);
+                            animationOfLoading.stop();
+
                             if (task.isSuccessful()) {
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);

@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.functions.FirebaseFunctions;
 
 import java.util.HashMap;
@@ -34,6 +35,8 @@ public class SettingsActivity extends AppCompatActivity {
     private Button mSaveButton;
     private Button mSaveAndReturnButton;
     private Button mReturnButton;
+
+    private ListenerRegistration lr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Username in Feld eintragen & Highlighing-Switch einstellen
         final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        lr = docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
@@ -133,4 +136,10 @@ public class SettingsActivity extends AppCompatActivity {
         return password.length() >= 3;
     }
 
+    public void onStop () {
+        if(lr != null){
+            lr.remove();
+        }
+        super.onStop();
+    }
 }

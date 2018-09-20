@@ -1,12 +1,14 @@
 package htw.de.schachapp;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -33,6 +35,9 @@ public class NewOfflineGameActivity extends AppCompatActivity {
     private Button mEnterGameButton;
     private Button mReturnButton;
 
+    private AnimationDrawable animationOfLoading;
+    private ImageView loading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +49,6 @@ public class NewOfflineGameActivity extends AppCompatActivity {
         mUsernamePlayer2 = (TextView)findViewById(R.id.offlineGameUsernamePlayer2Input);
         mEnterGameButton = (Button)findViewById(R.id.offlineGameStartButton);
         mReturnButton = (Button)findViewById(R.id.offlineGameReturnButton);
-
-
 
         mEnterGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,9 +77,19 @@ public class NewOfflineGameActivity extends AppCompatActivity {
                 if (cancel) {
                     focusView.requestFocus();
                 } else {
+                    //Loading Animation Start
+                    loading = (ImageView) findViewById (R.id.loading);
+                    loading.setVisibility(View.VISIBLE);
+                    animationOfLoading = (AnimationDrawable) loading.getDrawable();
+                    animationOfLoading.start();
+
                     newOfflineGame(usernamePlayer2, color).addOnCompleteListener(new OnCompleteListener<String>() {
                         @Override
                         public void onComplete(@NonNull Task<String> task) {
+                            //Loading Animation Stop
+                            loading.setVisibility(View.INVISIBLE);
+                            animationOfLoading.stop();
+
                             if (!task.isSuccessful()) {
                                 Exception e = task.getException();
                                 if (e instanceof FirebaseFunctionsException) {

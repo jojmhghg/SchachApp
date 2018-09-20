@@ -1,16 +1,19 @@
 package htw.de.schachapp;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,8 +22,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +47,14 @@ public class NewOnlineGameActivity extends AppCompatActivity {
     private Button mEnterQueueButton;
     private Button mReturnButton;
 
+    private AnimationDrawable animationOfLoading;
+    private ImageView loading;
+
+    private boolean inQueue;
+    private int time;
+
+    private ListenerRegistration lr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +73,22 @@ public class NewOnlineGameActivity extends AppCompatActivity {
         mEnterQueueButton = (Button)findViewById(R.id.onlinePartieEnterQueueButton);
         mReturnButton = (Button)findViewById(R.id.onlinePartieReturnButton);
 
+        inQueue = false;
+
         mEnterQueueButton.setOnClickListener(new View.OnClickListener() {
             String gameId;
             String favColor = "black";
-            int time = 5;
 
             @Override
             public void onClick(View view) {
+                //Loading Animation Start
+                loading = (ImageView) findViewById (R.id.loading);
+                loading.setVisibility(View.VISIBLE);
+                animationOfLoading = (AnimationDrawable) loading.getDrawable();
+                animationOfLoading.start();
+
+                disableAll();
+
                 //Lade username + partieID
                 db.collection("user")
                         .document(mAuth.getUid())
@@ -109,26 +132,15 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
                                                         boolean found = false;
+                                                        String id2 = "";
 
                                                         for (DocumentSnapshot document : task.getResult()) {
-                                                            String id2 = document.getId();
                                                             String color = document.getData().get("color").toString();
 
                                                             if(color != favColor){
-                                                                //Partie mit Gegner erstellen
-                                                                Map<String, Object> data = new HashMap<>();
-                                                                data.put("partieZeit", time);
-                                                                data.put("bevorzugteFarbe", favColor);
-                                                                data.put("id", id2);
-                                                                mFunctions.getHttpsCallable("pairPlayers").call(data);
-
                                                                 found = true;
-
-                                                                Toast.makeText(NewOnlineGameActivity.this, "Gegener gefunden!",
-                                                                        Toast.LENGTH_LONG).show();
-
-                                                                Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
-                                                                startActivity(intent);
+                                                                id2 = document.getId();
+                                                                break;
                                                             }
 
                                                         }
@@ -141,13 +153,14 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                             data.put("bevorzugteFarbe", favColor);
                                                             mFunctions.getHttpsCallable("enterQueue").call(data);
 
+                                                            inQueue = true;
+
                                                             //Auf Gegner warten und dann weiter zu Spielbrett
                                                             final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
-                                                            docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                                            lr = docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                                                                 @Override
                                                                 public void onEvent(@Nullable DocumentSnapshot snapshot,
                                                                                     @Nullable FirebaseFirestoreException e) {
-
                                                                     if (e != null) {
                                                                         Toast.makeText(NewOnlineGameActivity.this, R.string.error_get_data,
                                                                                 Toast.LENGTH_LONG).show();
@@ -156,8 +169,12 @@ public class NewOnlineGameActivity extends AppCompatActivity {
 
                                                                     if (snapshot != null && snapshot.exists()) {
                                                                         String newGameId = snapshot.getData().get("game").toString();
-                                                                        if(newGameId != gameId){
-                                                                            Toast.makeText(NewOnlineGameActivity.this, "Gegener gefunden!",
+                                                                        if(!newGameId.equals(gameId)){
+                                                                            //Loading Animation Stop
+                                                                            loading.setVisibility(View.INVISIBLE);
+                                                                            animationOfLoading.stop();
+
+                                                                            Toast.makeText(NewOnlineGameActivity.this, "Gegner gefunden!",
                                                                                     Toast.LENGTH_LONG).show();
 
                                                                             Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
@@ -167,6 +184,33 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                                     else{
                                                                         Toast.makeText(NewOnlineGameActivity.this, "Ups...!",
                                                                                 Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                        else{
+                                                            //Partie mit Gegner erstellen
+                                                            pairPlayersFunction(time, favColor, id2).addOnCompleteListener(new OnCompleteListener<String>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<String> task) {
+                                                                    if (!task.isSuccessful()) {
+                                                                        Exception e = task.getException();
+                                                                        if (e instanceof FirebaseFunctionsException) {
+                                                                            FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                                                            FirebaseFunctionsException.Code code = ffe.getCode();
+                                                                            Object details = ffe.getDetails();
+                                                                        }
+                                                                    }
+                                                                    else {
+                                                                        //Loading Animation Stop
+                                                                        loading.setVisibility(View.INVISIBLE);
+                                                                        animationOfLoading.stop();
+
+                                                                        Toast.makeText(NewOnlineGameActivity.this, "Gegner gefunden!",
+                                                                                Toast.LENGTH_LONG).show();
+
+                                                                        Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
+                                                                        startActivity(intent);
                                                                     }
                                                                 }
                                                             });
@@ -193,5 +237,67 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private Task<String> enterQueueFunction(String time, String favColor) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("partieZeit", time);
+        data.put("bevorzugteFarbe", favColor);
+
+        return mFunctions.getHttpsCallable("enterQueue").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
+            @Override
+            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                String result = (String) task.getResult().getData();
+                return result;
+            }
+        });
+    }
+
+    private Task<String> pairPlayersFunction(int time, String favColor, String id2) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("partieZeit", time);
+        data.put("bevorzugteFarbe", favColor);
+        data.put("id", id2);
+
+        return mFunctions.getHttpsCallable("pairPlayers").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
+            @Override
+            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                String result = (String) task.getResult().getData();
+                return result;
+            }
+        });
+    }
+
+    private void enableAll(){
+        m5minRadioButton.setEnabled(true);
+        m10minRadioButton.setEnabled(true);
+        m15minRadioButton.setEnabled(true);
+        m30minRadioButton.setEnabled(true);
+        m60minRadioButton.setEnabled(true);
+        mColorToggleButton.setEnabled(true);
+        mEnterQueueButton.setEnabled(true);
+    }
+
+    private void disableAll(){
+        m5minRadioButton.setEnabled(false);
+        m10minRadioButton.setEnabled(false);
+        m15minRadioButton.setEnabled(false);
+        m30minRadioButton.setEnabled(false);
+        m60minRadioButton.setEnabled(false);
+        mColorToggleButton.setEnabled(false);
+        mEnterQueueButton.setEnabled(false);
+    }
+
+    public void onStop () {
+        if(lr != null){
+            lr.remove();
+        }
+        if(inQueue){
+            Map<String, Object> data = new HashMap<>();
+            data.put("partieZeit", time);
+
+            mFunctions.getHttpsCallable("leaveQueue").call(data);
+        }
+        super.onStop();
     }
 }
