@@ -54,7 +54,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Spielbrett"
-            android:label="@string/title_activity_spielbrett"></activity>
+            android:label="@string/title_activity_spielbrett" />
     </application>
 
 </manifest>
