@@ -2,6 +2,7 @@ package htw.de.schachapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,8 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,13 +45,18 @@ public class NewOfflineGameActivity extends AppCompatActivity {
         mEnterGameButton = (Button)findViewById(R.id.offlineGameStartButton);
         mReturnButton = (Button)findViewById(R.id.offlineGameReturnButton);
 
+
+
         mEnterGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 boolean colorPlayer1 = mColorToggleButton.isChecked();
-                String usernamePlayer1 = mAuth.getCurrentUser().getDisplayName();
                 String usernamePlayer2 = mUsernamePlayer2.getText().toString();
+
+                String color = "black";
+                if(colorPlayer1){
+                    color = "white";
+                }
 
                 boolean cancel = false;
                 View focusView = null;
@@ -63,20 +74,30 @@ public class NewOfflineGameActivity extends AppCompatActivity {
                 if (cancel) {
                     focusView.requestFocus();
                 } else {
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("username1", usernamePlayer1);
-                    data.put("username2", usernamePlayer2);
-                    data.put("farbe1", colorPlayer1);
+                    newOfflineGame(usernamePlayer2, color).addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                Exception e = task.getException();
+                                if (e instanceof FirebaseFunctionsException) {
+                                    FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                    FirebaseFunctionsException.Code code = ffe.getCode();
+                                    Object details = ffe.getDetails();
+                                }
 
-                    mFunctions.getHttpsCallable("newOfflineGame").call(data);
+                                // ...
+                            }
+                            // ...
+                            else {
+                                Toast.makeText(NewOfflineGameActivity.this, "Offline Game erstellt!",
+                                        Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(NewOfflineGameActivity.this, "Offline Game erstellt!",
-                            Toast.LENGTH_LONG).show();
-
-                    Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
-                    startActivity(intent);
+                                Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
+                                startActivity(intent);
+                            }
+                        }
+                    });
                 }
-
             }
         });
 
@@ -90,5 +111,24 @@ public class NewOfflineGameActivity extends AppCompatActivity {
 
     private boolean isUsernameValid(String username) {
         return username.length() >= 3;
+    }
+
+    private Task<String> newOfflineGame(String usernamePlayer2, String colorPlayer1) {
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("username2", usernamePlayer2);
+        data.put("farbe1", colorPlayer1);
+
+        return mFunctions.getHttpsCallable("newOfflineGame").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
+            @Override
+            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                // This continuation runs on either success or failure, but if the task
+                // has failed then getResult() will throw an Exception which will be
+                // propagated down.
+
+                String result = (String) task.getResult().getData();
+                return result;
+            }
+        });
     }
 }
