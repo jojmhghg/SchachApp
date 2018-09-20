@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">SchachApp</string>
 
-    <string-array name="sbMenue">
+    <string-array name="sbMenueOn">
         <item>Menü</item>
         <item>Aufgeben</item>
         <item>Remis anbieten</item>
+        <item>Einstellungen</item>
+        <item>Spiel verlassen</item>
+        <item>Zurück zum Spiel</item>
+    </string-array>
+
+    <string-array name="sbMenueOff">
+        <item>Menü</item>
         <item>Einstellungen</item>
         <item>Spiel verlassen</item>
         <item>Zurück zum Spiel</item>

@@ -1,6 +1,7 @@
 package htw.de.schachapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +22,11 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Spielbrett extends Activity implements AdapterView.OnItemSelectedListener{
 
@@ -39,6 +46,9 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
     private boolean isOnline;
     private boolean ownColorIsWhite;
 
+    //Variable GameDaten
+    private int turn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +58,8 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
         mFunctions = FirebaseFunctions.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        //Menüleiste füllen
-        menue = (Spinner) findViewById(R.id.sbMenue);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-        R.array.sbMenue, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        menue.setAdapter(adapter);
-
         username1 = (TextView) findViewById(R.id.sbName1);
         username2 = (TextView) findViewById(R.id.sbName2);
-
-        menue.setOnItemSelectedListener(this);
 
         //Listener auf die User-Daten (Username, Highlighting & GameId)
         final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
@@ -78,7 +79,7 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
                     helpOn = Boolean.parseBoolean(snapshot.getData().get("help").toString());
                     username1.setText(snapshot.getData().get("name").toString());
 
-                    if(gameId != null && newGameId != gameId){
+                    if(gameId != null && !newGameId.equals(gameId)){
                         Toast.makeText(Spielbrett.this, "Ohje... GameId hat sich geändert!",
                                 Toast.LENGTH_LONG).show();
                         //TODO: was tun?
@@ -103,13 +104,32 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
                                                 ownColorIsWhite = true;
                                             }
 
-                                            if(ownColorIsWhite){
-                                                username2.setText(document.get("name2").toString());
+                                            if(document.get("type").toString().equals("off")){
+                                                isOnline = false;
+                                            }
+                                            else if(document.get("type").toString().equals("on")){
+                                                isOnline = true;
                                             }
                                             else{
-                                                username2.setText(document.get("name1").toString());
+                                                //TODO: Fehler
                                             }
 
+                                            if(!isOnline){
+                                                username2.setText(document.get("name").toString());
+                                            }
+                                            else{
+                                                //Listener auf die User-Daten des Gegners, falls Online(Username, Highlighting & GameId)
+                                                final DocumentReference docRef2 = db.collection("user").document(mAuth.getUid());
+                                                docRef2.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                                                        @Nullable FirebaseFirestoreException e) {
+                                                        if (snapshot != null && snapshot.exists()) {
+                                                            username2.setText(snapshot.getData().get("name").toString());
+                                                        }
+                                                    }
+                                                });
+                                            }
                                         } else {
                                             Toast.makeText(Spielbrett.this, R.string.error_get_data,
                                                     Toast.LENGTH_LONG).show();
@@ -126,9 +146,59 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
             }
         });
 
+        //Menüleiste füllen
+        menue = (Spinner) findViewById(R.id.sbMenue);
+        ArrayAdapter<CharSequence> adapter;
+        if(this.isOnline){
+            adapter = ArrayAdapter.createFromResource(this,
+                    R.array.sbMenueOn, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            menue.setAdapter(adapter);
+        }
+        else{
+            adapter = ArrayAdapter.createFromResource(this,
+                    R.array.sbMenueOff, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            menue.setAdapter(adapter);
+        }
+        menue.setOnItemSelectedListener(this);
 
 
+        //Listener auf die Game-Daten (res, turn)
+        final DocumentReference docRef3 = db.collection("user").document(mAuth.getUid());
+        docRef3.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
 
+                if (e != null) {
+                    Toast.makeText(Spielbrett.this, R.string.error_get_data,
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    String res = snapshot.getData().get("res").toString();
+                    int newTurn = Integer.parseInt(snapshot.getData().get("help").toString());
+
+                    if(!res.equals("")){
+                        Toast.makeText(Spielbrett.this, res,
+                                Toast.LENGTH_LONG).show();
+                        //TODO: Spiel beendet, Ergebnis anzeigen
+                    }
+
+                    if(newTurn > turn){
+                        if(ownColorIsWhite && newTurn % 2 == 1 || !ownColorIsWhite && newTurn % 2 == 0){
+                            //TODO: man ist nun am Zug
+                        }
+                    }
+                }
+                else{
+                    Toast.makeText(Spielbrett.this, "Ups...!",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
@@ -140,23 +210,20 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
 
         switch (parent.getItemAtPosition(pos).toString()){
             case "Aufgeben":
-                Toast.makeText(Spielbrett.this, "TODO: " + parent.getItemAtPosition(pos).toString(),
-                        Toast.LENGTH_LONG).show();
+                this.surrenderClicked();
                 break;
 
             case "Remis anbieten":
-                Toast.makeText(Spielbrett.this, "TODO: " + parent.getItemAtPosition(pos).toString(),
-                        Toast.LENGTH_LONG).show();
+                remisClicked();
                 break;
 
             case "Einstellungen":
-                Toast.makeText(Spielbrett.this, "TODO: " + parent.getItemAtPosition(pos).toString(),
-                        Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
                 break;
 
             case "Spiel verlassen":
-                Toast.makeText(Spielbrett.this, "TODO: " + parent.getItemAtPosition(pos).toString(),
-                        Toast.LENGTH_LONG).show();
+                leaveClicked();
                 break;
 
             case "Zurück zum Spiel":
@@ -168,6 +235,100 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
                 break;
         }
 
+        parent.setSelection(0);
+
+    }
+
+    private void leaveClicked(){
+        surrenderFunction().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Exception e = task.getException();
+                    if (e instanceof FirebaseFunctionsException) {
+                        FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                        FirebaseFunctionsException.Code code = ffe.getCode();
+                        Object details = ffe.getDetails();
+                    }
+                }
+                else {
+                    Toast.makeText(Spielbrett.this, "Du hast das Spiel verlassen!",
+                            Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void surrenderClicked(){
+        surrenderFunction().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Exception e = task.getException();
+                    if (e instanceof FirebaseFunctionsException) {
+                        FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                        FirebaseFunctionsException.Code code = ffe.getCode();
+                        Object details = ffe.getDetails();
+                    }
+                }
+                else {
+                    //TODO: Surrender Screen
+                    Toast.makeText(Spielbrett.this, "TODO: Surrender Screen",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private Task<String> surrenderFunction() {
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("gameId", gameId);
+
+        return mFunctions.getHttpsCallable("surrender").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
+            @Override
+            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                String result = (String) task.getResult().getData();
+                return result;
+            }
+        });
+    }
+
+    private void remisClicked(){
+        remisFunction().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Exception e = task.getException();
+                    if (e instanceof FirebaseFunctionsException) {
+                        FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                        FirebaseFunctionsException.Code code = ffe.getCode();
+                        Object details = ffe.getDetails();
+                    }
+                }
+                else {
+                    turn++;
+                    //TODO: Nicht mehr am Zug anzeigen
+                    Toast.makeText(Spielbrett.this, "TODO: Zug gemacht",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private Task<String> remisFunction() {
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("gameId", gameId);
+
+        return mFunctions.getHttpsCallable("offerDraw").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
+            @Override
+            public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                String result = (String) task.getResult().getData();
+                return result;
+            }
+        });
     }
 
     @Override

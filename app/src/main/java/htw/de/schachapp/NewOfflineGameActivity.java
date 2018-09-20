@@ -116,7 +116,7 @@ public class NewOfflineGameActivity extends AppCompatActivity {
     private Task<String> newOfflineGame(String usernamePlayer2, String colorPlayer1) {
         // Create the arguments to the callable function.
         Map<String, Object> data = new HashMap<>();
-        data.put("username2", usernamePlayer2);
+        data.put("namePlayer2", usernamePlayer2);
         data.put("farbe1", colorPlayer1);
 
         return mFunctions.getHttpsCallable("newOfflineGame").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {

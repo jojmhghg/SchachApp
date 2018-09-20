@@ -60,7 +60,6 @@ public class NewOnlineGameActivity extends AppCompatActivity {
         mReturnButton = (Button)findViewById(R.id.onlinePartieReturnButton);
 
         mEnterQueueButton.setOnClickListener(new View.OnClickListener() {
-            String username;
             String gameId;
             String favColor = "black";
             int time = 5;
@@ -77,7 +76,6 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     gameId = document.get("game").toString();
-                                    username = document.get("name").toString();
 
                                     if(m5minRadioButton.isChecked()){
                                         time = 5;
@@ -115,13 +113,10 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                         for (DocumentSnapshot document : task.getResult()) {
                                                             String id2 = document.getId();
                                                             String color = document.getData().get("color").toString();
-                                                            String name2 = document.getData().get("name").toString();
 
                                                             if(color != favColor){
                                                                 //Partie mit Gegner erstellen
                                                                 Map<String, Object> data = new HashMap<>();
-                                                                data.put("username1", username);
-                                                                data.put("username2", name2);
                                                                 data.put("partieZeit", time);
                                                                 data.put("bevorzugteFarbe", favColor);
                                                                 data.put("id", id2);
@@ -142,7 +137,6 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                         if(!found){
                                                             //Warteschlange betreten
                                                             Map<String, Object> data = new HashMap<>();
-                                                            data.put("username", username);
                                                             data.put("partieZeit", time);
                                                             data.put("bevorzugteFarbe", favColor);
                                                             mFunctions.getHttpsCallable("enterQueue").call(data);
