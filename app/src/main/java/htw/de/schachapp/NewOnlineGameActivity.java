@@ -52,6 +52,7 @@ public class NewOnlineGameActivity extends AppCompatActivity {
 
     private boolean inQueue;
     private int time;
+    private long zufallszahl;
 
     private ListenerRegistration lr;
 
@@ -140,6 +141,7 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                             if(color != favColor){
                                                                 found = true;
                                                                 id2 = document.getId();
+                                                                zufallszahl = ((Long)document.getData().get("zufallszahl")).longValue();
                                                                 break;
                                                             }
 
@@ -148,10 +150,8 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                         //Wenn kein Gegner gefunden, mache Eintrag in Queue und warte
                                                         if(!found){
                                                             //Warteschlange betreten
-                                                            Map<String, Object> data = new HashMap<>();
-                                                            data.put("partieZeit", time);
-                                                            data.put("bevorzugteFarbe", favColor);
-                                                            mFunctions.getHttpsCallable("enterQueue").call(data);
+                                                            zufallszahl = (int)(Math.random() * 10000000) + 10;
+                                                            enterQueueFunction(time, favColor);
 
                                                             inQueue = true;
 
@@ -178,6 +178,7 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                                                     Toast.LENGTH_LONG).show();
 
                                                                             Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
+                                                                            intent.putExtra("chk", zufallszahl);
                                                                             startActivity(intent);
                                                                         }
                                                                     }
@@ -210,6 +211,7 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                                                 Toast.LENGTH_LONG).show();
 
                                                                         Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
+                                                                        intent.putExtra("chk", zufallszahl);
                                                                         startActivity(intent);
                                                                     }
                                                                 }
@@ -239,10 +241,11 @@ public class NewOnlineGameActivity extends AppCompatActivity {
         });
     }
 
-    private Task<String> enterQueueFunction(String time, String favColor) {
+    private Task<String> enterQueueFunction(int time, String favColor) {
         Map<String, Object> data = new HashMap<>();
         data.put("partieZeit", time);
         data.put("bevorzugteFarbe", favColor);
+        data.put("chk", zufallszahl);
 
         return mFunctions.getHttpsCallable("enterQueue").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
             @Override

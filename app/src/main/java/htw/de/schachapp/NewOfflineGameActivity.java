@@ -83,7 +83,9 @@ public class NewOfflineGameActivity extends AppCompatActivity {
                     animationOfLoading = (AnimationDrawable) loading.getDrawable();
                     animationOfLoading.start();
 
-                    newOfflineGame(usernamePlayer2, color).addOnCompleteListener(new OnCompleteListener<String>() {
+                    final long zufallszahl = (int)(Math.random() * 10000000) + 10;
+
+                    newOfflineGame(usernamePlayer2, color, zufallszahl).addOnCompleteListener(new OnCompleteListener<String>() {
                         @Override
                         public void onComplete(@NonNull Task<String> task) {
                             //Loading Animation Stop
@@ -106,6 +108,7 @@ public class NewOfflineGameActivity extends AppCompatActivity {
                                         Toast.LENGTH_LONG).show();
 
                                 Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
+                                intent.putExtra("chk", zufallszahl);
                                 startActivity(intent);
                             }
                         }
@@ -126,11 +129,12 @@ public class NewOfflineGameActivity extends AppCompatActivity {
         return username.length() >= 3;
     }
 
-    private Task<String> newOfflineGame(String usernamePlayer2, String colorPlayer1) {
+    private Task<String> newOfflineGame(String usernamePlayer2, String colorPlayer1, long zufallszahl) {
         // Create the arguments to the callable function.
         Map<String, Object> data = new HashMap<>();
         data.put("namePlayer2", usernamePlayer2);
         data.put("farbe1", colorPlayer1);
+        data.put("chk", zufallszahl);
 
         return mFunctions.getHttpsCallable("newOfflineGame").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
             @Override

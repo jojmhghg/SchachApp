@@ -14,6 +14,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/f4"
         app:layout_constraintTop_toBottomOf="@+id/g5" />
@@ -37,6 +38,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/b4"
         app:layout_constraintTop_toBottomOf="@+id/c5" />
@@ -60,6 +62,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/d4"
         app:layout_constraintTop_toBottomOf="@+id/e5" />
@@ -95,6 +98,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/a5" />
@@ -118,6 +122,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/a3"
         app:layout_constraintTop_toBottomOf="@+id/b4" />
@@ -141,6 +146,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/c3"
         app:layout_constraintTop_toBottomOf="@+id/d4" />
@@ -164,6 +170,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/e3"
         app:layout_constraintTop_toBottomOf="@+id/f4" />
@@ -175,6 +182,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/g3"
         app:layout_constraintTop_toBottomOf="@+id/h4" />
@@ -198,6 +206,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/f2"
         app:layout_constraintTop_toBottomOf="@+id/g3" />
@@ -221,6 +230,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/b2"
         app:layout_constraintTop_toBottomOf="@+id/c3" />
@@ -244,6 +254,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/d2"
         app:layout_constraintTop_toBottomOf="@+id/e3" />
@@ -279,6 +290,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/a3" />
@@ -302,6 +314,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/a1"
         app:layout_constraintTop_toBottomOf="@+id/b2" />
@@ -325,6 +338,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/c1"
         app:layout_constraintTop_toBottomOf="@+id/d2" />
@@ -348,6 +362,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/e1"
         app:layout_constraintTop_toBottomOf="@+id/f2" />
@@ -359,6 +374,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/g1"
         app:layout_constraintTop_toBottomOf="@+id/h2" />
@@ -382,6 +398,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/f6"
         app:layout_constraintTop_toBottomOf="@+id/g7" />
@@ -405,6 +422,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/b6"
         app:layout_constraintTop_toBottomOf="@+id/c7" />
@@ -428,6 +446,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/d6"
         app:layout_constraintTop_toBottomOf="@+id/e7" />
@@ -463,6 +482,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/a7" />
@@ -486,6 +506,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/a5"
         app:layout_constraintTop_toBottomOf="@+id/b6" />
@@ -509,6 +530,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/c5"
         app:layout_constraintTop_toBottomOf="@+id/d6" />
@@ -532,6 +554,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/e5"
         app:layout_constraintTop_toBottomOf="@+id/f6" />
@@ -543,6 +566,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/g5"
         app:layout_constraintTop_toBottomOf="@+id/h6" />
@@ -578,6 +602,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/a7"
         app:layout_constraintTop_toBottomOf="@+id/b8" />
@@ -601,6 +626,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/c7"
         app:layout_constraintTop_toBottomOf="@+id/d8" />
@@ -624,6 +650,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/e7"
         app:layout_constraintTop_toBottomOf="@+id/f8" />
@@ -635,6 +662,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/g7"
         app:layout_constraintTop_toBottomOf="@+id/h8" />
@@ -670,6 +698,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="100dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/d8"
         app:layout_constraintTop_toTopOf="parent" />
@@ -693,6 +722,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="100dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/f8"
         app:layout_constraintTop_toTopOf="parent" />
@@ -716,6 +746,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="100dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -727,6 +758,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="100dp"
+        android:background="@color/colorAccent"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/b8"
         app:layout_constraintTop_toTopOf="parent" />
