@@ -32,15 +32,22 @@ import java.util.Map;
 
 public class Spielbrett extends Activity implements AdapterView.OnItemSelectedListener{
 
-    private ImageView[] spielbrett;
-
+    //Firebase
     private FirebaseAuth mAuth;
     private FirebaseFunctions mFunctions;
     private FirebaseFirestore db;
 
+    //Android-Objekte
     private Spinner menue;
     private TextView username1;
     private TextView username2;
+    private ImageView[] spielbrettImage;
+    private String[] spielbrettFiguren;
+    private ImageView boxSpieler1;
+    private ImageView boxSpieler2;
+
+    //Für Züge:
+    private Position clickedField;
 
     //Userdaten
     private boolean helpOn;
@@ -69,74 +76,12 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
 
         username1 = (TextView) findViewById(R.id.sbName1);
         username2 = (TextView) findViewById(R.id.sbName2);
-
-        spielbrett = new ImageView[64];
-        spielbrett[0] = (ImageView) findViewById(R.id.a1);
-        spielbrett[1] = (ImageView) findViewById(R.id.b1);
-        spielbrett[2] = (ImageView) findViewById(R.id.c1);
-        spielbrett[3] = (ImageView) findViewById(R.id.d1);
-        spielbrett[4] = (ImageView) findViewById(R.id.e1);
-        spielbrett[5] = (ImageView) findViewById(R.id.f1);
-        spielbrett[6] = (ImageView) findViewById(R.id.g1);
-        spielbrett[7] = (ImageView) findViewById(R.id.h1);
-        spielbrett[8] = (ImageView) findViewById(R.id.a2);
-        spielbrett[9] = (ImageView) findViewById(R.id.b2);
-        spielbrett[10] = (ImageView) findViewById(R.id.c2);
-        spielbrett[11] = (ImageView) findViewById(R.id.d2);
-        spielbrett[12] = (ImageView) findViewById(R.id.e2);
-        spielbrett[13] = (ImageView) findViewById(R.id.f2);
-        spielbrett[14] = (ImageView) findViewById(R.id.g2);
-        spielbrett[15] = (ImageView) findViewById(R.id.h2);
-        spielbrett[16] = (ImageView) findViewById(R.id.a3);
-        spielbrett[17] = (ImageView) findViewById(R.id.b3);
-        spielbrett[18] = (ImageView) findViewById(R.id.c3);
-        spielbrett[19] = (ImageView) findViewById(R.id.d3);
-        spielbrett[20] = (ImageView) findViewById(R.id.e3);
-        spielbrett[21] = (ImageView) findViewById(R.id.f3);
-        spielbrett[22] = (ImageView) findViewById(R.id.g3);
-        spielbrett[23] = (ImageView) findViewById(R.id.h3);
-        spielbrett[24] = (ImageView) findViewById(R.id.a4);
-        spielbrett[25] = (ImageView) findViewById(R.id.b4);
-        spielbrett[26] = (ImageView) findViewById(R.id.c4);
-        spielbrett[27] = (ImageView) findViewById(R.id.d4);
-        spielbrett[28] = (ImageView) findViewById(R.id.e4);
-        spielbrett[29] = (ImageView) findViewById(R.id.f4);
-        spielbrett[30] = (ImageView) findViewById(R.id.g4);
-        spielbrett[31] = (ImageView) findViewById(R.id.h4);
-        spielbrett[32] = (ImageView) findViewById(R.id.a5);
-        spielbrett[33] = (ImageView) findViewById(R.id.b5);
-        spielbrett[34] = (ImageView) findViewById(R.id.c5);
-        spielbrett[35] = (ImageView) findViewById(R.id.d5);
-        spielbrett[36] = (ImageView) findViewById(R.id.e5);
-        spielbrett[37] = (ImageView) findViewById(R.id.f5);
-        spielbrett[38] = (ImageView) findViewById(R.id.g5);
-        spielbrett[39] = (ImageView) findViewById(R.id.h5);
-        spielbrett[40] = (ImageView) findViewById(R.id.a6);
-        spielbrett[41] = (ImageView) findViewById(R.id.b6);
-        spielbrett[42] = (ImageView) findViewById(R.id.c6);
-        spielbrett[43] = (ImageView) findViewById(R.id.d6);
-        spielbrett[44] = (ImageView) findViewById(R.id.e6);
-        spielbrett[45] = (ImageView) findViewById(R.id.f6);
-        spielbrett[46] = (ImageView) findViewById(R.id.g6);
-        spielbrett[47] = (ImageView) findViewById(R.id.h6);
-        spielbrett[48] = (ImageView) findViewById(R.id.a7);
-        spielbrett[49] = (ImageView) findViewById(R.id.b7);
-        spielbrett[50] = (ImageView) findViewById(R.id.c7);
-        spielbrett[51] = (ImageView) findViewById(R.id.d7);
-        spielbrett[52] = (ImageView) findViewById(R.id.e7);
-        spielbrett[53] = (ImageView) findViewById(R.id.f7);
-        spielbrett[54] = (ImageView) findViewById(R.id.g7);
-        spielbrett[55] = (ImageView) findViewById(R.id.h7);
-        spielbrett[56] = (ImageView) findViewById(R.id.a8);
-        spielbrett[57] = (ImageView) findViewById(R.id.b8);
-        spielbrett[58] = (ImageView) findViewById(R.id.c8);
-        spielbrett[59] = (ImageView) findViewById(R.id.d8);
-        spielbrett[60] = (ImageView) findViewById(R.id.e8);
-        spielbrett[61] = (ImageView) findViewById(R.id.f8);
-        spielbrett[62] = (ImageView) findViewById(R.id.g8);
-        spielbrett[63] = (ImageView) findViewById(R.id.h8);
+        boxSpieler1 = (ImageView) findViewById(R.id.imageView2);
+        boxSpieler2 = (ImageView) findViewById(R.id.imageView);
 
         init = true;
+        clickedField = null;
+        turn = 1;
 
         //Übergabeparameter entnehmen
         Intent myIntent = getIntent();
@@ -192,14 +137,18 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
                                     // Einmaliges lesen von Fix-Daten der Partie ()
                                     if(init && snapshot.getData().get("chk") != null && ((Long)snapshot.getData().get("chk")).longValue() == zufallszahl){
 
-                                        //Figuren setzen:
-                                        setzeFiguren(snapshot.getData().get("sb").toString());
-
                                         //Eigene Farbe bestimmen
-                                        ownColorIsWhite = false;
                                         if(snapshot.getData().get("id1") != null && snapshot.getData().get("id1").toString().equals(mAuth.getUid())){
                                             ownColorIsWhite = true;
                                         }
+                                        else{
+                                            ownColorIsWhite = false;
+
+                                        }
+                                        //Felder in Array speichern
+                                        initSpielbrett(ownColorIsWhite);
+                                        //Figuren setzen:
+                                        setzeFiguren(snapshot.getData().get("sb").toString());
 
                                         if(snapshot.getData().get("type").toString().equals("off")){
                                             isOnline = false;
@@ -261,12 +210,13 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
 
                                         if(newTurn > turn){
                                             //Figuren ziehen:
-                                            //TODO: Map<String, String> map = (Map<String, String>) snapshot.getData().get("sb");
-                                            //TODO: setzeFiguren(map);
+                                            setzeFiguren(snapshot.getData().get("sb").toString());
 
                                             if(ownColorIsWhite && newTurn % 2 == 1 || !ownColorIsWhite && newTurn % 2 == 0){
                                                 //TODO: man ist nun am Zug
                                             }
+
+                                            turn = newTurn;
                                         }
                                     }
                                 }
@@ -286,6 +236,7 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
         });
     }
 
+
     private void setzeFiguren(String sb){
         sb = sb.substring(1, sb.length() - 1);
 
@@ -295,7 +246,8 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
 
         for(String item : items){
             tmp = item.split("=");
-            spielbrett[Position.valueOf(tmp[0]).ordinal()].setImageResource(getResourceId(tmp[1]));
+            spielbrettImage[Position.valueOf(tmp[0]).ordinal()].setImageResource(getResourceId(tmp[1]));
+            spielbrettFiguren[Position.valueOf(tmp[0]).ordinal()] = tmp[1];
         }
     }
 
@@ -316,6 +268,219 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
             menue.setAdapter(adapter);
         }
         menue.setOnItemSelectedListener(this);
+    }
+
+    private void initSpielbrett(boolean isWhite){
+        spielbrettImage = new ImageView[64];
+        if(isWhite) {
+            spielbrettImage[0] = (ImageView) findViewById(R.id.a1);
+            spielbrettImage[1] = (ImageView) findViewById(R.id.b1);
+            spielbrettImage[2] = (ImageView) findViewById(R.id.c1);
+            spielbrettImage[3] = (ImageView) findViewById(R.id.d1);
+            spielbrettImage[4] = (ImageView) findViewById(R.id.e1);
+            spielbrettImage[5] = (ImageView) findViewById(R.id.f1);
+            spielbrettImage[6] = (ImageView) findViewById(R.id.g1);
+            spielbrettImage[7] = (ImageView) findViewById(R.id.h1);
+            spielbrettImage[8] = (ImageView) findViewById(R.id.a2);
+            spielbrettImage[9] = (ImageView) findViewById(R.id.b2);
+            spielbrettImage[10] = (ImageView) findViewById(R.id.c2);
+            spielbrettImage[11] = (ImageView) findViewById(R.id.d2);
+            spielbrettImage[12] = (ImageView) findViewById(R.id.e2);
+            spielbrettImage[13] = (ImageView) findViewById(R.id.f2);
+            spielbrettImage[14] = (ImageView) findViewById(R.id.g2);
+            spielbrettImage[15] = (ImageView) findViewById(R.id.h2);
+            spielbrettImage[16] = (ImageView) findViewById(R.id.a3);
+            spielbrettImage[17] = (ImageView) findViewById(R.id.b3);
+            spielbrettImage[18] = (ImageView) findViewById(R.id.c3);
+            spielbrettImage[19] = (ImageView) findViewById(R.id.d3);
+            spielbrettImage[20] = (ImageView) findViewById(R.id.e3);
+            spielbrettImage[21] = (ImageView) findViewById(R.id.f3);
+            spielbrettImage[22] = (ImageView) findViewById(R.id.g3);
+            spielbrettImage[23] = (ImageView) findViewById(R.id.h3);
+            spielbrettImage[24] = (ImageView) findViewById(R.id.a4);
+            spielbrettImage[25] = (ImageView) findViewById(R.id.b4);
+            spielbrettImage[26] = (ImageView) findViewById(R.id.c4);
+            spielbrettImage[27] = (ImageView) findViewById(R.id.d4);
+            spielbrettImage[28] = (ImageView) findViewById(R.id.e4);
+            spielbrettImage[29] = (ImageView) findViewById(R.id.f4);
+            spielbrettImage[30] = (ImageView) findViewById(R.id.g4);
+            spielbrettImage[31] = (ImageView) findViewById(R.id.h4);
+            spielbrettImage[32] = (ImageView) findViewById(R.id.a5);
+            spielbrettImage[33] = (ImageView) findViewById(R.id.b5);
+            spielbrettImage[34] = (ImageView) findViewById(R.id.c5);
+            spielbrettImage[35] = (ImageView) findViewById(R.id.d5);
+            spielbrettImage[36] = (ImageView) findViewById(R.id.e5);
+            spielbrettImage[37] = (ImageView) findViewById(R.id.f5);
+            spielbrettImage[38] = (ImageView) findViewById(R.id.g5);
+            spielbrettImage[39] = (ImageView) findViewById(R.id.h5);
+            spielbrettImage[40] = (ImageView) findViewById(R.id.a6);
+            spielbrettImage[41] = (ImageView) findViewById(R.id.b6);
+            spielbrettImage[42] = (ImageView) findViewById(R.id.c6);
+            spielbrettImage[43] = (ImageView) findViewById(R.id.d6);
+            spielbrettImage[44] = (ImageView) findViewById(R.id.e6);
+            spielbrettImage[45] = (ImageView) findViewById(R.id.f6);
+            spielbrettImage[46] = (ImageView) findViewById(R.id.g6);
+            spielbrettImage[47] = (ImageView) findViewById(R.id.h6);
+            spielbrettImage[48] = (ImageView) findViewById(R.id.a7);
+            spielbrettImage[49] = (ImageView) findViewById(R.id.b7);
+            spielbrettImage[50] = (ImageView) findViewById(R.id.c7);
+            spielbrettImage[51] = (ImageView) findViewById(R.id.d7);
+            spielbrettImage[52] = (ImageView) findViewById(R.id.e7);
+            spielbrettImage[53] = (ImageView) findViewById(R.id.f7);
+            spielbrettImage[54] = (ImageView) findViewById(R.id.g7);
+            spielbrettImage[55] = (ImageView) findViewById(R.id.h7);
+            spielbrettImage[56] = (ImageView) findViewById(R.id.a8);
+            spielbrettImage[57] = (ImageView) findViewById(R.id.b8);
+            spielbrettImage[58] = (ImageView) findViewById(R.id.c8);
+            spielbrettImage[59] = (ImageView) findViewById(R.id.d8);
+            spielbrettImage[60] = (ImageView) findViewById(R.id.e8);
+            spielbrettImage[61] = (ImageView) findViewById(R.id.f8);
+            spielbrettImage[62] = (ImageView) findViewById(R.id.g8);
+            spielbrettImage[63] = (ImageView) findViewById(R.id.h8);
+        }
+        else{
+            spielbrettImage[63] = (ImageView) findViewById(R.id.a1);
+            spielbrettImage[62] = (ImageView) findViewById(R.id.b1);
+            spielbrettImage[61] = (ImageView) findViewById(R.id.c1);
+            spielbrettImage[60] = (ImageView) findViewById(R.id.d1);
+            spielbrettImage[59] = (ImageView) findViewById(R.id.e1);
+            spielbrettImage[58] = (ImageView) findViewById(R.id.f1);
+            spielbrettImage[57] = (ImageView) findViewById(R.id.g1);
+            spielbrettImage[56] = (ImageView) findViewById(R.id.h1);
+            spielbrettImage[55] = (ImageView) findViewById(R.id.a2);
+            spielbrettImage[54] = (ImageView) findViewById(R.id.b2);
+            spielbrettImage[53] = (ImageView) findViewById(R.id.c2);
+            spielbrettImage[52] = (ImageView) findViewById(R.id.d2);
+            spielbrettImage[51] = (ImageView) findViewById(R.id.e2);
+            spielbrettImage[50] = (ImageView) findViewById(R.id.f2);
+            spielbrettImage[49] = (ImageView) findViewById(R.id.g2);
+            spielbrettImage[48] = (ImageView) findViewById(R.id.h2);
+            spielbrettImage[47] = (ImageView) findViewById(R.id.a3);
+            spielbrettImage[46] = (ImageView) findViewById(R.id.b3);
+            spielbrettImage[45] = (ImageView) findViewById(R.id.c3);
+            spielbrettImage[44] = (ImageView) findViewById(R.id.d3);
+            spielbrettImage[43] = (ImageView) findViewById(R.id.e3);
+            spielbrettImage[42] = (ImageView) findViewById(R.id.f3);
+            spielbrettImage[41] = (ImageView) findViewById(R.id.g3);
+            spielbrettImage[40] = (ImageView) findViewById(R.id.h3);
+            spielbrettImage[39] = (ImageView) findViewById(R.id.a4);
+            spielbrettImage[38] = (ImageView) findViewById(R.id.b4);
+            spielbrettImage[37] = (ImageView) findViewById(R.id.c4);
+            spielbrettImage[36] = (ImageView) findViewById(R.id.d4);
+            spielbrettImage[35] = (ImageView) findViewById(R.id.e4);
+            spielbrettImage[34] = (ImageView) findViewById(R.id.f4);
+            spielbrettImage[33] = (ImageView) findViewById(R.id.g4);
+            spielbrettImage[32] = (ImageView) findViewById(R.id.h4);
+            spielbrettImage[31] = (ImageView) findViewById(R.id.a5);
+            spielbrettImage[30] = (ImageView) findViewById(R.id.b5);
+            spielbrettImage[29] = (ImageView) findViewById(R.id.c5);
+            spielbrettImage[28] = (ImageView) findViewById(R.id.d5);
+            spielbrettImage[27] = (ImageView) findViewById(R.id.e5);
+            spielbrettImage[26] = (ImageView) findViewById(R.id.f5);
+            spielbrettImage[25] = (ImageView) findViewById(R.id.g5);
+            spielbrettImage[24] = (ImageView) findViewById(R.id.h5);
+            spielbrettImage[23] = (ImageView) findViewById(R.id.a6);
+            spielbrettImage[22] = (ImageView) findViewById(R.id.b6);
+            spielbrettImage[21] = (ImageView) findViewById(R.id.c6);
+            spielbrettImage[20] = (ImageView) findViewById(R.id.d6);
+            spielbrettImage[19] = (ImageView) findViewById(R.id.e6);
+            spielbrettImage[18] = (ImageView) findViewById(R.id.f6);
+            spielbrettImage[17] = (ImageView) findViewById(R.id.g6);
+            spielbrettImage[16] = (ImageView) findViewById(R.id.h6);
+            spielbrettImage[15] = (ImageView) findViewById(R.id.a7);
+            spielbrettImage[14] = (ImageView) findViewById(R.id.b7);
+            spielbrettImage[13] = (ImageView) findViewById(R.id.c7);
+            spielbrettImage[12] = (ImageView) findViewById(R.id.d7);
+            spielbrettImage[11] = (ImageView) findViewById(R.id.e7);
+            spielbrettImage[10] = (ImageView) findViewById(R.id.f7);
+            spielbrettImage[9] = (ImageView) findViewById(R.id.g7);
+            spielbrettImage[8] = (ImageView) findViewById(R.id.h7);
+            spielbrettImage[7] = (ImageView) findViewById(R.id.a8);
+            spielbrettImage[6] = (ImageView) findViewById(R.id.b8);
+            spielbrettImage[5] = (ImageView) findViewById(R.id.c8);
+            spielbrettImage[4] = (ImageView) findViewById(R.id.d8);
+            spielbrettImage[3] = (ImageView) findViewById(R.id.e8);
+            spielbrettImage[2] = (ImageView) findViewById(R.id.f8);
+            spielbrettImage[1] = (ImageView) findViewById(R.id.g8);
+            spielbrettImage[0] = (ImageView) findViewById(R.id.h8);
+
+            for(int i = 0; i < 64; i++){
+                spielbrettImage[i].setContentDescription(Position.values()[i].toString());
+            }
+        }
+
+        spielbrettFiguren = new String[64];
+
+        for(ImageView iv : spielbrettImage){
+            iv.setClickable(true);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ImageView clickedView = (ImageView) v;
+                    Position pos = Position.valueOf(clickedView.getContentDescription().toString());
+
+                    if(clickedField == null){
+                        if(spielbrettFiguren[pos.ordinal()] != null){
+                            clickedField = pos;
+                        }
+                    }
+                    else if(clickedField.ordinal() == pos.ordinal()){
+                        //TODO: selbes Feld nochmal angeklickt
+                    }
+                    else{
+                        //TODO: ziehe Figur
+                        zieheFunction(clickedField, pos).addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull Task<String> task) {
+                                if (!task.isSuccessful()) {
+                                    Exception e = task.getException();
+                                    if (e instanceof FirebaseFunctionsException) {
+                                        FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                        FirebaseFunctionsException.Code code = ffe.getCode();
+                                        Object details = ffe.getDetails();
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(Spielbrett.this, "gezogen",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    //TODO: alles was nach ziehen passieren muss
+                                }
+                            }
+                        });
+                        clickedField = null;
+                    }
+                }
+            });
+        }
+    }
+
+    private Task<String> zieheFunction(Position ursprung, Position ziel) {
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("gameId", gameId);
+        data.put("src", ursprung.toString());
+        data.put("des", ziel.toString());
+
+        if(isOnline){
+            return mFunctions.getHttpsCallable("moveOnline").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
+                @Override
+                public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                    String result = (String) task.getResult().getData();
+                    return result;
+                }
+            });
+        }
+        else{
+            return mFunctions.getHttpsCallable("moveOffline").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
+                @Override
+                public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                    String result = (String) task.getResult().getData();
+                    return result;
+                }
+            });
+        }
+
     }
 
     @Override
