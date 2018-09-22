@@ -144,11 +144,11 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
-        android:background="@color/colorPrimary"
-        android:src="@color/colorPrimary"
+        android:background="#6d3b1a"
+        android:contentDescription="c3"
+        android:src="#6d3b1a"
         app:layout_constraintStart_toEndOf="@+id/b3"
-        app:layout_constraintTop_toBottomOf="@+id/c4"
-        android:contentDescription="c3"/>
+        app:layout_constraintTop_toBottomOf="@+id/c4" />
 
     <ImageView
         android:id="@+id/d3"
@@ -236,10 +236,10 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         android:background="@color/colorPrimary"
-        android:src="@color/colorPrimary"
+        android:contentDescription="b2"
+        android:src="#b34c09"
         app:layout_constraintStart_toEndOf="@+id/a2"
-        app:layout_constraintTop_toBottomOf="@+id/b3"
-        android:contentDescription="b2"/>
+        app:layout_constraintTop_toBottomOf="@+id/b3" />
 
     <ImageView
         android:id="@+id/c2"
@@ -443,7 +443,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorSelceted"
         android:src="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/a6"
         app:layout_constraintTop_toBottomOf="@+id/b7"
@@ -456,7 +456,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
-        android:background="@color/colorAccent"
+        android:background="@color/colorSelceted"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/b6"
         app:layout_constraintTop_toBottomOf="@+id/c7"
@@ -469,11 +469,12 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
-        android:background="@color/colorPrimary"
-        android:src="@color/colorPrimary"
+
+        android:background="#b34c09"
+        android:contentDescription="d6"
+        android:src="@drawable/BishopW"
         app:layout_constraintStart_toEndOf="@+id/c6"
-        app:layout_constraintTop_toBottomOf="@+id/d7"
-        android:contentDescription="d6"/>
+        app:layout_constraintTop_toBottomOf="@+id/d7" />
 
     <ImageView
         android:id="@+id/e6"
@@ -482,11 +483,11 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
-        android:background="@color/colorAccent"
-        android:src="@color/colorAccent"
+        android:background="@color/colorWarning"
+        android:contentDescription="e6"
+        android:src="@drawable/BishopB"
         app:layout_constraintStart_toEndOf="@+id/d6"
-        app:layout_constraintTop_toBottomOf="@+id/e7"
-        android:contentDescription="e6"/>
+        app:layout_constraintTop_toBottomOf="@+id/e7" />
 
     <ImageView
         android:id="@+id/f6"
@@ -599,11 +600,11 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
-        android:background="@color/colorAccent"
-        android:src="@color/colorAccent"
+        android:background="@color/colorSelceted"
+        android:contentDescription="f5"
+        android:src="@color/colorSelceted"
         app:layout_constraintStart_toEndOf="@+id/e5"
-        app:layout_constraintTop_toBottomOf="@+id/f6"
-        android:contentDescription="f5"/>
+        app:layout_constraintTop_toBottomOf="@+id/f6" />
 
     <ImageView
         android:id="@+id/h5"
@@ -677,11 +678,11 @@
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
-        android:background="@color/colorAccent"
-        android:src="@color/colorAccent"
+        android:background="#b34c09"
+        android:contentDescription="d7"
+        android:src="#b34c09"
         app:layout_constraintStart_toEndOf="@+id/c7"
-        app:layout_constraintTop_toBottomOf="@+id/d8"
-        android:contentDescription="d7"/>
+        app:layout_constraintTop_toBottomOf="@+id/d8" />
 
     <ImageView
         android:id="@+id/e7"

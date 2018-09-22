@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/loadingframe1" android:duration="140" />
-    <item android:drawable="@drawable/loadingframe2" android:duration="140" />
-    <item android:drawable="@drawable/loadingframe3" android:duration="140" />
-    <item android:drawable="@drawable/loadingframe4" android:duration="140" />
+    <item android:drawable="@drawable/frame1" android:duration="140" />
+    <item android:drawable="@drawable/frame2" android:duration="140" />
+    <item android:drawable="@drawable/frame3" android:duration="140" />
+    <item android:drawable="@drawable/frame4" android:duration="140" />
+    <item android:drawable="@drawable/frame5" android:duration="140" />
 </animation-list>

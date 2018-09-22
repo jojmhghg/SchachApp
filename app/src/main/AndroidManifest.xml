@@ -55,6 +55,9 @@
         <activity
             android:name=".Spielbrett"
             android:label="@string/title_activity_spielbrett" />
+        <activity
+            android:name=".PopUpGewonnen"
+            android:theme="@style/AppTheme.hintergrundanzeigen"/>
     </application>
 
 </manifest>

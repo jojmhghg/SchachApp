@@ -617,47 +617,7 @@ public class Spielbrett extends Activity implements AdapterView.OnItemSelectedLi
     private int getResourceId(String name){
         int result = 0;
 
-        switch(name){
-            case "bw":
-                result = R.drawable.bw;
-                break;
-            case "bs":
-                result = R.drawable.bs;
-                break;
-            case "tw":
-                result = R.drawable.tw;
-                break;
-            case "ts":
-                result = R.drawable.ts;
-                break;
-            case "lw":
-                result = R.drawable.lw;
-                break;
-            case "ls":
-                result = R.drawable.ls;
-                break;
-            case "sw":
-                result = R.drawable.sw;
-                break;
-            case "ss":
-                result = R.drawable.ss;
-                break;
-            case "dw":
-                result = R.drawable.dw;
-                break;
-            case "ds":
-                result = R.drawable.ds;
-                break;
-            case "kw":
-                result = R.drawable.kw;
-                break;
-            case "ks":
-                result = R.drawable.ks;
-                break;
-            default:
-                result = 0;
-                break;
-        }
+
 
         return result;
     }
