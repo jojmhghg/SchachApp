@@ -58,6 +58,9 @@
         <activity
             android:name=".PopUpGewonnen"
             android:theme="@style/AppTheme.hintergrundanzeigen"/>
+        <activity
+            android:name=".Remisanbieten"
+            android:theme="@style/AppTheme.hintergrundanzeigen"/>
     </application>
 
 </manifest>

@@ -22,7 +22,7 @@
         android:layout_alignTop="@+id/button3"
         android:layout_marginEnd="60dp"
         android:background="@color/colorAccent"
-        android:text="Nochmal" />
+        android:text="Ablehnen" />
 
     <Button
         android:id="@+id/button3"
@@ -33,12 +33,12 @@
         android:layout_marginBottom="101dp"
         android:layout_marginStart="60dp"
         android:background="@color/colorAccent"
-        android:text="Menü" />
+        android:text="Annehmen" />
 
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="205dp"
-        android:layout_height="273dp"
+        android:layout_height="107dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
@@ -46,12 +46,12 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="289dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="218dp"
-        android:text="Gewonnen"
-        android:textSize="@android:dimen/notification_large_icon_width" />
+        android:layout_marginTop="179dp"
+        android:text="spieler bla bietet Remie an"
+        android:textSize="30sp" />
 
 </RelativeLayout>
