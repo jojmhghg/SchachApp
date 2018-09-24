@@ -7,7 +7,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
 
+    <!-- Base application theme. -->
+    <style name="AppTheme.popup">
+        <!-- Customize your theme here. -->
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
 </resources>

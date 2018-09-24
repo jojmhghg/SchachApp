@@ -45,16 +45,26 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".NewKiGameActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".NewOfflineGameActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Spielbrett"
-            android:label="@string/title_activity_spielbrett" />
+            android:name=".SpielbrettActivity"
+            android:label="@string/title_activity_spielbrett"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".RanglisteActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".GameFinishedPopupActivity"
+            android:theme="@style/AppTheme.popup"/>
+        <activity
+            android:name=".PawnPromotionActivity"
+            android:theme="@style/AppTheme.popup"/>
+        <activity
+            android:name=".RemisangebotPopupActivity"
+            android:theme="@style/AppTheme.popup"/>
     </application>
 
 </manifest>

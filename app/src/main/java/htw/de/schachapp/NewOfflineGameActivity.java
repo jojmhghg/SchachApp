@@ -38,6 +38,8 @@ public class NewOfflineGameActivity extends AppCompatActivity {
     private AnimationDrawable animationOfLoading;
     private ImageView loading;
 
+    private final int REQUEST_EXIT = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,9 +109,9 @@ public class NewOfflineGameActivity extends AppCompatActivity {
                                 Toast.makeText(NewOfflineGameActivity.this, "Offline Game erstellt!",
                                         Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
+                                Intent intent = new Intent(getApplicationContext(), SpielbrettActivity.class);
                                 intent.putExtra("chk", zufallszahl);
-                                startActivity(intent);
+                                startActivityForResult(intent, REQUEST_EXIT);
                             }
                         }
                     });
@@ -147,5 +149,13 @@ public class NewOfflineGameActivity extends AppCompatActivity {
                 return result;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_EXIT) {
+            this.finish();
+        }
     }
 }

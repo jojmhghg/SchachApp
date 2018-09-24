@@ -10,7 +10,6 @@ public class NewGameActivity extends AppCompatActivity {
 
     // Elemente in View
     private Button mOnlineGameButton;
-    private Button mKiGameButton;
     private Button mOfflineGameButton;
     private Button mReturnButton;
 
@@ -20,7 +19,6 @@ public class NewGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_game);
 
         mOnlineGameButton = (Button)findViewById(R.id.goToNewOnlineGameButton);
-        mKiGameButton = (Button)findViewById(R.id.goToNewVsKiGameButton);
         mOfflineGameButton = (Button)findViewById(R.id.goToNewOfflineGameButton);
         mReturnButton = (Button)findViewById(R.id.newGameReturnButton);
 
@@ -28,14 +26,6 @@ public class NewGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), NewOnlineGameActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mKiGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NewKiGameActivity.class);
                 startActivity(intent);
             }
         });

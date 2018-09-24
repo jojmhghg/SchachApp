@@ -56,6 +56,8 @@ public class NewOnlineGameActivity extends AppCompatActivity {
 
     private ListenerRegistration lr;
 
+    private final int REQUEST_EXIT = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,7 @@ public class NewOnlineGameActivity extends AppCompatActivity {
         inQueue = false;
 
         mEnterQueueButton.setOnClickListener(new View.OnClickListener() {
-            String gameId;
+            String gameId = null;
             String favColor = "black";
 
             @Override
@@ -99,7 +101,9 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
-                                    gameId = document.get("game").toString();
+                                    if(document.get("game") != null){
+                                        gameId = document.get("game").toString();
+                                    }
 
                                     if(m5minRadioButton.isChecked()){
                                         time = 5;
@@ -141,7 +145,7 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                             if(color != favColor){
                                                                 found = true;
                                                                 id2 = document.getId();
-                                                                zufallszahl = ((Long)document.getData().get("zufallszahl")).longValue();
+                                                                zufallszahl = ((Long)document.getData().get("chk")).longValue();
                                                                 break;
                                                             }
 
@@ -155,7 +159,7 @@ public class NewOnlineGameActivity extends AppCompatActivity {
 
                                                             inQueue = true;
 
-                                                            //Auf Gegner warten und dann weiter zu Spielbrett
+                                                            //Auf Gegner warten und dann weiter zu SpielbrettActivity
                                                             final DocumentReference docRef = db.collection("user").document(mAuth.getUid());
                                                             lr = docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                                                                 @Override
@@ -177,9 +181,9 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                                             Toast.makeText(NewOnlineGameActivity.this, "Gegner gefunden!",
                                                                                     Toast.LENGTH_LONG).show();
 
-                                                                            Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
+                                                                            Intent intent = new Intent(getApplicationContext(), SpielbrettActivity.class);
                                                                             intent.putExtra("chk", zufallszahl);
-                                                                            startActivity(intent);
+                                                                            startActivityForResult(intent, REQUEST_EXIT);
                                                                         }
                                                                     }
                                                                     else{
@@ -202,18 +206,16 @@ public class NewOnlineGameActivity extends AppCompatActivity {
                                                                             Object details = ffe.getDetails();
                                                                         }
                                                                     }
-                                                                    else {
-                                                                        //Loading Animation Stop
-                                                                        loading.setVisibility(View.INVISIBLE);
-                                                                        animationOfLoading.stop();
+                                                                    //Loading Animation Stop
+                                                                    loading.setVisibility(View.INVISIBLE);
+                                                                    animationOfLoading.stop();
 
-                                                                        Toast.makeText(NewOnlineGameActivity.this, "Gegner gefunden!",
-                                                                                Toast.LENGTH_LONG).show();
+                                                                    Toast.makeText(NewOnlineGameActivity.this, "Gegner gefunden!",
+                                                                            Toast.LENGTH_LONG).show();
 
-                                                                        Intent intent = new Intent(getApplicationContext(), Spielbrett.class);
-                                                                        intent.putExtra("chk", zufallszahl);
-                                                                        startActivity(intent);
-                                                                    }
+                                                                    Intent intent = new Intent(getApplicationContext(), SpielbrettActivity.class);
+                                                                    intent.putExtra("chk", zufallszahl);
+                                                                    startActivityForResult(intent, REQUEST_EXIT);
                                                                 }
                                                             });
                                                         }
@@ -261,6 +263,7 @@ public class NewOnlineGameActivity extends AppCompatActivity {
         data.put("partieZeit", time);
         data.put("bevorzugteFarbe", favColor);
         data.put("id", id2);
+        data.put("chk", zufallszahl);
 
         return mFunctions.getHttpsCallable("pairPlayers").call(data).continueWith(new Continuation<HttpsCallableResult, String>() {
             @Override
@@ -302,5 +305,13 @@ public class NewOnlineGameActivity extends AppCompatActivity {
             mFunctions.getHttpsCallable("leaveQueue").call(data);
         }
         super.onStop();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_EXIT) {
+            this.finish();
+        }
     }
 }

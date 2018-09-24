@@ -17,6 +17,36 @@
         <item>Zurück zum Spiel</item>
     </string-array>
 
+    <!-- Remisangebot -->
+    <string name="remis_confirm_button">Annehmen</string>
+    <string name="remis_reject_button">Ablehnen</string>
+    <string name="remis_message">Dein Gegner bietet dir ein Remis an!</string>
+
+    <string name="goToMenue">Menü</string>
+
+    <!-- Bauer umwandeln -->
+    <string name="promote_title">Wähle eine Figur</string>
+
+    <!-- Figuren -->
+    <string name="figur_bauer">Bauer</string>
+    <string name="figur_springer">Springer</string>
+    <string name="figur_laeufer">Läufer</string>
+    <string name="figur_turm">Turm</string>
+    <string name="figur_dame">Dame</string>
+    <string name="figur_koenig">König</string>
+
+    <!-- Bestenliste/Rangliste -->
+    <string name="rang_titel">Bestenliste</string>
+    <string name="rang_placeholder_name">Unknown</string>
+    <string name="rang_placeholder_points">0</string>
+    <string name="rang_placeholder_wld">0 / 0 / 0</string>
+    <string name="rang_nr_1">1.</string>
+    <string name="rang_nr_2">2.</string>
+    <string name="rang_nr_3">3.</string>
+    <string name="rang_nr_4">4.</string>
+    <string name="rang_nr_5">5.</string>
+    <string name="rang_placeholder_nr_x">9999.</string>
+
     <!-- Mehrfaches auftauchen -->
     <string name="hint_email">E-Mail</string>
     <string name="hint_password">Passwort</string>
@@ -42,6 +72,7 @@
 
     <!-- MainAciticity -->
     <string name="activity_new_game">Neue Partie</string>
+    <string name="activity_rangliste">Bestenliste</string>
     <string name="activity_continue_game">Partie fortsetzen</string>
     <string name="activity_load_game">Partie laden</string>
     <string name="activity_settings">Einstellungen</string>

@@ -2,11 +2,15 @@ package htw.de.schachapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.functions.FirebaseFunctions;
 
@@ -33,34 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         mNewGameButton = (Button)findViewById(R.id.mainNewGameButton);
         mContinueGameButton = (Button)findViewById(R.id.mainContinueGameButton);
-        mLoadGameButton = (Button)findViewById(R.id.mainLoadGameButton);
+        mLoadGameButton = (Button)findViewById(R.id.mainRanglisteButton);
         mSettingsButton = (Button)findViewById(R.id.mainSettingsButton);
         mLogoutButton = (Button)findViewById(R.id.mainLogoutButton);
-
-        /* Test zum Lesen aus der DB & Toasts
-        // Username in Feld eintragen & Highlighing-Switch einstellen
-        final DocumentReference docRef = db.collection("games").document("vAPAmc2HvRUT5FyTdE8w");
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-
-                if (e != null) {
-                    Toast.makeText(MainActivity.this, R.string.error_get_data,
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    Toast.makeText(MainActivity.this, "winner",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "test",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        */
 
         mNewGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,24 +52,41 @@ public class MainActivity extends AppCompatActivity {
         mContinueGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            /*Test für Surrender
-                Map<String, Object> data = new HashMap<>();
-                data.put("gameId", "vAPAmc2HvRUT5FyTdE8w");
+                //Lade gameID
+                db.collection("user")
+                        .document(mAuth.getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot document = task.getResult();
+                                String gameId = document.get("game").toString();
 
-                mFunctions.getHttpsCallable("surrender").call(data);
-                //TODO
-                //Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                //startActivity(intent);
-            */
+                                //Lade zufallszahl
+                                db.collection("games")
+                                        .document(gameId)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                DocumentSnapshot document = task.getResult();
+                                                long zufallszahl = (Long)document.get("chk");
+
+                                                Intent intent = new Intent(getApplicationContext(), SpielbrettActivity.class);
+                                                intent.putExtra("chk", zufallszahl);
+                                                startActivity(intent);
+                                            }
+                                        });
+                            }
+                        });
             }
         });
 
         mLoadGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                //Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), RanglisteActivity.class);
+                startActivity(intent);
             }
         });
         mSettingsButton.setOnClickListener(new View.OnClickListener() {

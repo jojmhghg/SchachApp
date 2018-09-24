@@ -4,4 +4,5 @@
     <item android:drawable="@drawable/loadingframe2" android:duration="140" />
     <item android:drawable="@drawable/loadingframe3" android:duration="140" />
     <item android:drawable="@drawable/loadingframe4" android:duration="140" />
+    <item android:drawable="@drawable/loadingframe5" android:duration="140" />
 </animation-list>
